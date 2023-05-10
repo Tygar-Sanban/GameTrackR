@@ -1,12 +1,13 @@
 @font-face {
   font-family: "Game";
-  src: url("./assets/Fonts/lottepaperfang.ttf");
+  src: url("./assets/Fonts/absender1.ttf");
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  text-decoration: none;
 }
 
 /* Styling the HomePage */
@@ -19,6 +20,18 @@
 
 /* Styling for the GameList page */
 
+.header {
+  width: 100%;
+  background-color: black;
+  color: white;
+  padding: 2rem;
+  background-image: url("https://getwallpapers.com/wallpaper/full/c/a/0/568188.jpg");
+  background-position: center;
+  background-size: cover;
+  background-position-y: 113rem;
+  background-blend-mode: lighten;
+}
+
 .GameList-video-game-page {
   display: flex;
   flex-wrap: wrap;
@@ -28,11 +41,11 @@
 }
 
 .GameList-video-game {
-  width: 35rem;
+  width: 32.5%;
   height: 40rem;
   background-position: center;
   background-size: cover;
-  margin: 0.2rem;
+  margin: 0.3rem 0;
   display: flex;
   justify-content: flex-start;
   align-items: flex-end;
