@@ -7,7 +7,7 @@ function HomePage() {
   async function getVideoGames() {
     try {
       const response = await axios.get(
-        "https://api.rawg.io/api/games?key=b600c722cedc401fb777d82d17949bec"
+        "https://api.rawg.io/api/games?key=b600c722cedc401fb777d82d17949bec&search=fifa"
       );
       setAllGames(response.data.results);
     } catch (error) {
@@ -25,7 +25,11 @@ function HomePage() {
         <div>Loading...</div>
       ) : (
         allGames.map((elem) => {
-          return <div key={elem.id}>{elem.name}</div>;
+          return (
+            <div key={elem.id}>
+              {elem.name} <img src={elem.background_image} alt={elem.name} />
+            </div>
+          );
         })
       )}
     </div>
