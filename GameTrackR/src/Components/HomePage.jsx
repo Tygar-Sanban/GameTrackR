@@ -1,16 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
 
 function HomePage() {
-  const [allGames, setAllGames] = useState(null);
+  const [allGames, setAllGames] = useState([]);
 
   async function getVideoGames() {
     try {
       const response = await axios.get(
         "https://api.rawg.io/api/games?key=b600c722cedc401fb777d82d17949bec"
       );
-      setAllGames(response);
+      setAllGames(response.data.results);
     } catch (error) {
       console.log(error);
     }
@@ -26,7 +25,7 @@ function HomePage() {
         <div>Loading...</div>
       ) : (
         allGames.map((elem) => {
-          return <div key={elem.results.id}>{elem.results.name}</div>;
+          return <div key={elem.id}>{elem.name}</div>;
         })
       )}
     </div>
