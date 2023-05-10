@@ -7,7 +7,7 @@ function HomePage() {
   async function getVideoGames() {
     try {
       const response = await axios.get(
-        "https://api.rawg.io/api/games?key=b600c722cedc401fb777d82d17949bec&search=fifa"
+        "https://api.rawg.io/api/games?key=b600c722cedc401fb777d82d17949bec&genres=adventure"
       );
       setAllGames(response.data.results);
     } catch (error) {
