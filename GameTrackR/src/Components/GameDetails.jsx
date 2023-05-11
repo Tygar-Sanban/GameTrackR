@@ -6,7 +6,6 @@ import axios from "axios";
 function GameDetails() {
   const [game, setGame] = useState(null);
   const param = useParams();
-  console.log("this is the param", param);
 
   useEffect(() => {
     axios
@@ -14,7 +13,6 @@ function GameDetails() {
         `https://api.rawg.io/api/games/${param.gameId}?key=b600c722cedc401fb777d82d17949bec`
       )
       .then((response) => {
-        console.log(response);
         setGame(response.data);
       })
       .catch((error) => {
