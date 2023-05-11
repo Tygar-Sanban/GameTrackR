@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { useState } from "react";
 import { Link } from "react-router-dom";
+import Search from "./Search";
 
 function GameList() {
   const [allGames, setAllGames] = useState([]);
@@ -18,7 +18,7 @@ function GameList() {
   }
 
   useEffect(() => {
-    getVideoGames();
+    // getVideoGames();
   }, []);
 
   //Now let's handle what happens when we reach the bottom of the page :
@@ -36,7 +36,10 @@ function GameList() {
   }, []);
 
   useEffect(() => {
-    fetchElements();
+    console.log("fetchin", currentPage);
+    if (!searchString) {
+      fetchElements();
+    }
   }, [currentPage]);
 
   function fetchElements() {
@@ -67,6 +70,39 @@ function GameList() {
     }
   }
 
+  //Now, let's implement a search bar
+
+  const [searchString, setSearchString] = useState("");
+
+  // function handleSearch(character) {
+  //   setAllGames([]);
+  //   setSearchString([...searchString, character]);
+  // }
+
+  function handleChange(event) {
+    setSearchString(event.target.value);
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    async function getSearchedGame() {
+      try {
+        console.log(searchString);
+        const response = await axios.get(
+          `https://api.rawg.io/api/games?key=b600c722cedc401fb777d82d17949bec&search=${searchString}`
+        );
+
+        // (null);
+        setAllGames(response.data.results);
+        console.log("SEARCHING: ", response.data.results);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getSearchedGame();
+  }
+
   //Now that it's done, let's display the page !
 
   return (
@@ -76,16 +112,30 @@ function GameList() {
       ) : (
         <div className="GameList-video-game-page">
           <nav className="header">
-            <ul>
-              <li>filter</li>
-              <li>sort</li>
+            <Link to="/">
+              <div className="logo">
+                <img
+                  src="../../public/assets/Images/gameTrackR_v2 (1).png"
+                  alt="logo.png"
+                />
+              </div>
+            </Link>
+            <ul className="search-bar">
+              <Search
+                searchString={searchString}
+                setSearchString={setSearchString}
+                setAllGames={setAllGames}
+                allGames={allGames}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+              />
             </ul>
           </nav>
           {allGames.map((elem) => {
             const url = `/game-list/${elem.id}`;
             return (
               <Link
-                key={elem.id}
+                key={elem.slug}
                 to={url}
                 className="GameList-video-game"
                 style={{ backgroundImage: `url(${elem.background_image})` }}

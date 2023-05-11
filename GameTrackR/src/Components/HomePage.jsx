@@ -1,26 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import NavBar from "./NavBar";
 
 function HomePage() {
   return (
     <>
-      <nav className="header">
-        <ul>
-          <li>logo</li>
-          <li>sort</li>
-        </ul>
-      </nav>
+      <NavBar />
       <container className="HomePage-container">
-        <div className="HomePage-GameList-button">
-          <Link to="/game-list">
+        <Link to="/game-list" className="HomePage-GameList-button">
+          <div>
             <h1>Game list</h1>
-          </Link>{" "}
-        </div>
-        <div className="HomePage-UserProfile-button">
-          <Link to="/user-profile">
+          </div>
+        </Link>{" "}
+        <Link to="/user-profile" className="HomePage-UserProfile-button">
+          <div>
             <h1>User Profile</h1>
-          </Link>{" "}
-        </div>
+          </div>
+        </Link>{" "}
       </container>
     </>
   );

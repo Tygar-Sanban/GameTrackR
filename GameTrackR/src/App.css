@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Game";
-  src: url("./assets/Fonts/absender1.ttf");
+  src: url("../public/assets/Fonts/absender1.ttf");
 }
 
 * {
@@ -10,43 +10,21 @@
   text-decoration: none;
 }
 
-/* Styling the HomePage */
+/* Styling the navbar */
 
-.HomePage-container {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+.logo {
+  width: 100%;
+  margin: 0 20%;
 }
 
-.HomePage-GameList-button {
-  width: 15%;
-  height: 5rem;
-  background-color: darkblue;
-  border-radius: 3vh;
-  margin: 2rem;
-  padding: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: "Game";
-  color: white;
+.logo img {
+  width: 100%;
 }
 
-.HomePage-UserProfile-button {
-  width: 15%;
-  height: 5rem;
-  background-color: darkblue;
-  border-radius: 3vh;
-  margin: 6rem 2rem;
-  padding: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: "Game";
-  color: white;
+.header a {
+  width: 10%;
+  margin: 0 7%;
 }
-
-/* Styling for the GameList page */
 
 .header {
   width: 100%;
@@ -58,7 +36,86 @@
   background-position: center;
   background-size: cover;
   background-blend-mode: lighten;
+  box-shadow: 0rem 1rem 2rem black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
+
+.search-bar {
+  width: 70%;
+  margin: 0 20%;
+}
+
+.search-bar-input {
+  width: 80%;
+  height: 3rem;
+  border-radius: 10px;
+  box-shadow: 1rem 1rem 2rem black;
+  padding: 1rem;
+}
+
+.search-bar-button {
+  margin: 0 0.2rem;
+  width: 10%;
+  height: 3rem;
+  border-radius: 10px;
+  box-shadow: 1rem 1rem 2rem black;
+  transition: 400ms;
+  font-family: "Game";
+  font-size: 1.2rem;
+  background-color: #8bc6ef;
+  transform: translateY(0.2rem);
+}
+
+.search-bar-button:hover {
+  scale: 1.3;
+}
+
+/* Styling the HomePage */
+
+.HomePage-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: black;
+}
+
+.HomePage-GameList-button {
+  width: 15%;
+  height: 5rem;
+  background-color: #8bc6ef;
+  border-radius: 3vh;
+  margin: 2rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Game";
+}
+
+.HomePage-GameList-button h1 {
+  color: black;
+}
+
+.HomePage-UserProfile-button {
+  width: 15%;
+  height: 5rem;
+  background-color: #8bc6ef;
+  border-radius: 3vh;
+  margin: 6rem 2rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Game";
+}
+
+.HomePage-UserProfile-button h1 {
+  color: black;
+}
+
+/* Styling for the GameList page */
 
 .GameList-video-game-page {
   display: flex;
@@ -85,7 +142,7 @@
 
 .GameList-video-game:hover {
   filter: brightness(1);
-  scale: 1.1;
+  scale: 1.12;
 }
 
 .GameList-video-game-name {
