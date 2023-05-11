@@ -26,31 +26,38 @@ function GameDetails() {
   }
 
   return (
-    <div className="gameBackground">
-      <img
-        style={{ width: "100vw" }}
-        src={`${game.background_image}`}
-        alt="gameBackground"
-      />
-      <h1>{game.name}</h1>
-      <table>
-        <thead></thead>
-        <tbody>
-          <tr>
-            <td style={{ width: "30%" }}>Released on :</td>
-            <td>{game.released}</td>
-          </tr>
-          <tr>
-            <td>Rating</td>
-            <td>{game.rating}/5</td>
-          </tr>
-          <tr>
-            <td>You may also like</td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <>
+      <div className="gameBackground">
+        <img
+          style={{ height: "40vh", objectFit: "cover" }}
+          src={`${game.background_image}`}
+          alt="gameBackground"
+        />
+      </div>
+      <div>
+        <h1>{game.name}</h1>
+        <table>
+          <thead></thead>
+          <tbody>
+            <tr>
+              <td style={{ width: "30%" }}>Released on :</td>
+              <td>{game.released}</td>
+            </tr>
+            <tr>
+              <td>Rating</td>
+              <td>{game.rating}/5</td>
+            </tr>
+            <tr>
+              <td>Description :</td>
+              <td>{game.description}</td>
+            </tr>
+            <tr>
+              <td>You may also like</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 }
 
