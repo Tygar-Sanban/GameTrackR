@@ -153,3 +153,13 @@
   font-size: 1.5rem;
   color: white;
 }
+
+/* Styling the game details page  */
+
+.game-details-background {
+  height: 70vh;
+  width: 100vw;
+  background-size: cover;
+  background-position: center;
+  background-position-y: 0rem;
+}
