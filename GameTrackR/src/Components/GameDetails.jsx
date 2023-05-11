@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 function GameDetails() {
-  // const { id } = useParams();
   const [game, setGame] = useState(null);
+  const param = useParams();
+  console.log("this is the param", param);
 
   useEffect(() => {
     axios
       .get(
-        `https://api.rawg.io/api/games/3498?key=b600c722cedc401fb777d82d17949bec`
+        `https://api.rawg.io/api/games/${param.gameId}?key=b600c722cedc401fb777d82d17949bec`
       )
       .then((response) => {
         console.log(response);
@@ -49,7 +50,7 @@ function GameDetails() {
             </tr>
             <tr>
               <td>Description :</td>
-              <td>{game.description}</td>
+              <td>{game.description_raw}</td>
             </tr>
             <tr>
               <td>You may also like</td>
