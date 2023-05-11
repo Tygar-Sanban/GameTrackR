@@ -1,0 +1,87 @@
+@font-face {
+  font-family: "Game";
+  src: url("./assets/Fonts/absender1.ttf");
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
+/* Styling the HomePage */
+
+.HomePage-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.HomePage-GameList-button {
+  width: 15%;
+  height: 5rem;
+  background-color: darkblue;
+  border-radius: 3vh;
+  margin: 2rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Game";
+  color: white;
+}
+
+.HomePage-UserProfile-button {
+  width: 15%;
+  height: 5rem;
+  background-color: darkblue;
+  border-radius: 3vh;
+  margin: 2rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Game";
+  color: white;
+}
+
+/* Styling for the GameList page */
+
+.header {
+  width: 100%;
+  background-color: black;
+  color: white;
+  padding: 2rem;
+  background-image: url("https://getwallpapers.com/wallpaper/full/c/a/0/568188.jpg");
+  background-position: center;
+  background-size: cover;
+  background-position-y: 113rem;
+  background-blend-mode: lighten;
+}
+
+.GameList-video-game-page {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: black;
+}
+
+.GameList-video-game {
+  width: 32.5%;
+  height: 40rem;
+  background-position: center;
+  background-size: cover;
+  margin: 0.3rem 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.GameList-video-game-name {
+  margin: 2rem;
+  font-family: "Game";
+  font-size: 1.5rem;
+  color: white;
+}

@@ -13,7 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
         <Route path="/game-list" element={<GameList />} />
-        <Route path="/game-details" element={<GameDetails />} />
+        <Route path="/game-list/:game-Id" element={<GameDetails />} />
         <Route path="/user-profile" element={<UserProfile />} />
         <Route path="/stats" element={<Stats />} />
         <Route path="/news" element={<News />} />
