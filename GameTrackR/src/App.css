@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Game";
-  src: url("../public/assets/Fonts/absender1.ttf");
+  src: url("../public/assets/Fonts/LEMONMILK-Bold.otf");
 }
 
 * {
@@ -152,6 +152,7 @@
   font-family: "Game";
   font-size: 1.5rem;
   color: white;
+  -webkit-text-stroke: 1px black;
 }
 
 /* Styling the game details page  */

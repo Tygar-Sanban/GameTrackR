@@ -4,25 +4,9 @@ import { Link } from "react-router-dom";
 import Search from "./Search";
 
 function GameList() {
+  // Let's display the games and handle what happens when we reach the bottom of the page :
+
   const [allGames, setAllGames] = useState([]);
-
-  async function getVideoGames() {
-    try {
-      const response = await axios.get(
-        "https://api.rawg.io/api/games?key=b600c722cedc401fb777d82d17949bec"
-      );
-      setAllGames(response.data.results);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    // getVideoGames();
-  }, []);
-
-  //Now let's handle what happens when we reach the bottom of the page :
-
   const [currentPage, setCurrentPage] = useState(1);
   const [isFetching, setIsFetching] = useState(false);
   const sentinelRef = useRef(null);
@@ -74,11 +58,6 @@ function GameList() {
 
   const [searchString, setSearchString] = useState("");
 
-  // function handleSearch(character) {
-  //   setAllGames([]);
-  //   setSearchString([...searchString, character]);
-  // }
-
   function handleChange(event) {
     setSearchString(event.target.value);
   }
@@ -93,7 +72,6 @@ function GameList() {
           `https://api.rawg.io/api/games?key=b600c722cedc401fb777d82d17949bec&search=${searchString}`
         );
 
-        // (null);
         setAllGames(response.data.results);
         console.log("SEARCHING: ", response.data.results);
       } catch (error) {
