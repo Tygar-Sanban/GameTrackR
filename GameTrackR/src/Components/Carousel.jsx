@@ -23,7 +23,7 @@ const Carousel = ({ children }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       updateIndex(activeIndex + 1);
-    }, 3000);
+    }, 5000);
 
     return () => {
       if (interval) {
