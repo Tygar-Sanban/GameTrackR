@@ -9,11 +9,27 @@ function LogIn(props) {
   const [validProfile, setValidProfile] = useState(true);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    props.getAllProfiles();
+  }, []);
+
   function checkIfValidProfile() {
     console.log("checking");
     props.allProfiles.map((elem) => {
+      console.log(
+        "elem.username",
+        elem.userName,
+        "username",
+        userName,
+        "elem.password",
+        elem.password,
+        "password",
+        password
+      );
       if (elem.userName === userName && elem.password === password) {
-        props.setUser(userName);
+        props.setUser(elem);
+        delete elem.password;
+        localStorage.setItem("user", JSON.stringify(elem));
         navigate("/user-profile");
         return;
       } else {
@@ -31,7 +47,7 @@ function LogIn(props) {
 
   return !validProfile ? (
     <div style={{ backgroundColor: "black" }}>
-      <NavBar user={props.user} />
+      <NavBar user={props.user?.userName} />
       <div>
         <form onSubmit={handleSubmit} className="form">
           <label htmlFor="userName">
@@ -60,7 +76,7 @@ function LogIn(props) {
     </div>
   ) : (
     <div style={{ backgroundColor: "black" }}>
-      <NavBar user={props.user} />
+      <NavBar user={props.user?.userName} />
       <div>
         <form onSubmit={handleSubmit} className="form">
           <label htmlFor="userName">Username :</label>

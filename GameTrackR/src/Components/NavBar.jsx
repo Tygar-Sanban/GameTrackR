@@ -15,12 +15,17 @@ function NavBar(props) {
       </Link>
       {props.user && (
         <div className="user">
-          <img
-            className="user-icon"
-            src="../../public/assets/Images/user.png"
-            alt=""
-          />
-          <h3 className="displaying-user-name">{props.user}</h3>
+          <Link
+            to="/user-profile"
+            className="profile-icon-link-to-user-profile"
+          >
+            <img
+              className="user-icon"
+              src="../../public/assets/Images/user.png"
+              alt=""
+            />
+            <h3 className="displaying-user-name">{props.user}</h3>
+          </Link>
         </div>
       )}
     </nav>

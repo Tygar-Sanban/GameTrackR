@@ -8,12 +8,14 @@ import Stats from "./Components/Stats";
 import News from "./Components/News";
 import { useState, useEffect } from "react";
 import SignIn from "./Components/SignIn";
-import LogIn from "./Components/Login";
-import axios from "axios";
+import LogIn from "./Components/LogIn";
+import axios, { all } from "axios";
 
 function App() {
   const [user, setUser] = useState(null);
+  const [likedGames, setLikedGames] = useState([]);
   const [allProfiles, setAllProfiles] = useState([]);
+  const [userId, setUserId] = useState("");
 
   async function getAllProfiles() {
     try {
@@ -26,10 +28,42 @@ function App() {
     }
   }
 
+  console.log("this is all profiles", allProfiles);
+
+  function getUserId() {
+    allProfiles.map((elem) => {
+      if (elem.userName === user) {
+        setUserId(elem._id);
+        return userId;
+      }
+    });
+  }
+
+  function getUserLikedGames() {
+    allProfiles.map((elem) => {
+      if (elem.userName === user) {
+        setLikedGames(elem.likedGames);
+      }
+      return;
+    });
+  }
+  console.log("test", likedGames, typeof likedGames);
+
   useEffect(() => {
-    // setInterval(() => {
+    getUserId();
+  }, [user]);
+
+  useEffect(() => {
+    getUserLikedGames();
+  }, [user]);
+
+  useEffect(() => {
     getAllProfiles();
-    // }, 500);
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const userToJS = JSON.parse(storedUser);
+      setUser(userToJS);
+    }
   }, []);
 
   return (
@@ -41,6 +75,8 @@ function App() {
             <HomePage
               user={user}
               setUser={setUser}
+              userId={userId}
+              likedGames={likedGames}
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
             />
@@ -52,6 +88,8 @@ function App() {
             <GameList
               user={user}
               setUser={setUser}
+              userId={userId}
+              likedGames={likedGames}
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
             />
@@ -63,6 +101,8 @@ function App() {
             <GameDetails
               user={user}
               setUser={setUser}
+              userId={userId}
+              likedGames={likedGames}
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
             />
@@ -74,6 +114,8 @@ function App() {
             <UserProfile
               user={user}
               setUser={setUser}
+              userId={userId}
+              likedGames={likedGames}
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
             />
@@ -85,8 +127,11 @@ function App() {
             <SignIn
               user={user}
               setUser={setUser}
+              userId={userId}
+              likedGames={likedGames}
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
+              getAllProfiles={getAllProfiles}
             />
           }
         />
@@ -96,8 +141,11 @@ function App() {
             <LogIn
               user={user}
               setUser={setUser}
+              userId={userId}
+              likedGames={likedGames}
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
+              getAllProfiles={getAllProfiles}
             />
           }
         />
@@ -107,6 +155,8 @@ function App() {
             <Stats
               user={user}
               setUser={setUser}
+              userId={userId}
+              likedGames={likedGames}
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
             />

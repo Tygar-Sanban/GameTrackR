@@ -1,51 +1,77 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "./NavBar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function UserProfile(props) {
   const [likedGames, setLikedGames] = useState(null);
+  const [likedGamesToDisplay, setLikedGamesToDisplay] = useState(null);
+  const navigate = useNavigate();
+
+  function handleDisconnect() {
+    localStorage.removeItem("user");
+    props.setUser(null);
+    navigate("/");
+  }
+
+  useEffect(() => {
+    if (props.user.likedGames) {
+      setLikedGames(props.user.likedGames);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (likedGames) {
+      likedGames.map((elem) => {
+        axios
+          .get(
+            `https://api.rawg.io/api/games/${elem}?key=b600c722cedc401fb777d82d17949bec`
+          )
+          .then((response) => {
+            console.log("this is the response.data", response.data);
+            setLikedGames((current) => [...current, response.data]);
+          });
+      });
+    }
+  }, [props.user]);
 
   return (
     <div style={{ backgroundColor: "black" }}>
-      <NavBar user={props.user} />
+      <button onClick={handleDisconnect}>Disconnect</button>
+      <NavBar user={props.user?.userName} />
       {props.user ? (
-        !likedGames ? (
-          <div>
-            <h1>Loading...</h1>
+        !likedGamesToDisplay ? (
+          <div className="empty-user-profile">
+            <h1>
+              You haven't had any activity on this website yet. Checkout the{" "}
+              <Link to="/game-list">
+                <span className="link-to-gamelist">Game List</span>
+              </Link>{" "}
+              !
+            </h1>
           </div>
         ) : (
           <div className="GameList-video-game-page">
             <h1>Your Liked Games</h1>
-            {props.user.likedGames.map((elem) => {
-              axios
-                .get(
-                  `https://api.rawg.io/api/games/${elem}?key=b600c722cedc401fb777d82d17949bec`
-                )
-                .then((response) => {
-                  setLikedGames((current) => [...current, ...response]);
-                  likedGames.map((likedGame) => {
-                    const url = `/game-list/${likedGame.id}`;
-                    return (
-                      <Link
-                        key={likedGame.slug}
-                        to={url}
-                        target="_blank"
-                        className="GameList-video-game"
-                        style={{
-                          backgroundImage: `url(${likedGame.background_image})`,
-                        }}
-                      >
-                        <div>
-                          <div className="GameList-video-game-name">
-                            {elem.name}
-                          </div>
-                        </div>
-                      </Link>
-                    );
-                  });
-                })
-                .catch((error) => console.log(error));
+            {likedGamesToDisplay.map((likedGame) => {
+              const url = `/game-list/${likedGame.id}`;
+              return (
+                <Link
+                  key={likedGame.slug}
+                  to={url}
+                  target="_blank"
+                  className="GameList-video-game"
+                  style={{
+                    backgroundImage: `url(${likedGame.background_image})`,
+                  }}
+                >
+                  <div>
+                    <div className="GameList-video-game-name">
+                      {likedGame.name}
+                    </div>
+                  </div>
+                </Link>
+              );
             })}
           </div>
         )
