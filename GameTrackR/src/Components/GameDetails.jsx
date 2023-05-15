@@ -58,7 +58,6 @@ function GameDetails(props) {
   const [stores, setStores] = useState(null);
   const [reddit, setReddit] = useState(null);
 
-
   useEffect(() => {
     axios
       .get(
@@ -312,28 +311,30 @@ function GameDetails(props) {
                 ))}
               </td>
             </tr>
-            <tr>
-              <td className="title">Buy the game</td>
-              <td className="buy">
-                {stores.map((store) => {
-                  return (
-                    <a
-                      key={store.store_id}
-                      href={store.url}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <img
-                        className="storeLogos"
+            {stores && (
+              <tr>
+                <td className="title">Buy the game</td>
+                <td className="buy">
+                  {stores.map((store) => {
+                    return (
+                      <a
                         key={store.store_id}
-                        src={storeLogos[store.store_id]}
-                        alt="store"
-                      />
-                    </a>
-                  );
-                })}
-              </td>
-            </tr>
+                        href={store.url}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          className="storeLogos"
+                          key={store.store_id}
+                          src={storeLogos[store.store_id]}
+                          alt="store"
+                        />
+                      </a>
+                    );
+                  })}
+                </td>
+              </tr>
+            )}
             <div className="divider"></div>
             <tr>
               <td className="title">Genres</td>
@@ -435,39 +436,41 @@ function GameDetails(props) {
           })}
       </Carousel>
 
-      <div className="detailsTable">
-        <div className="redditTitleDiv">Recent Reddit Posts</div>
-        <div className="redditContainer" key={reddit.id}>
-          {reddit
-            .filter((post) => post.image)
-            .map((post) => {
-              return (
-                <>
-                  <div className="redditPost">
-                    <p className="redditUsername">Username {post.username}</p>
+      {reddit && (
+        <div className="detailsTable">
+          <div className="redditTitleDiv">Recent Reddit Posts</div>
+          <div className="redditContainer" key={reddit.id}>
+            {reddit
+              .filter((post) => post.image)
+              .map((post) => {
+                return (
+                  <>
+                    <div className="redditPost">
+                      <p className="redditUsername">Username {post.username}</p>
 
-                    <p className="redditTitle">{post.name}</p>
-                    <img
-                      className="redditImg"
-                      src={post.image}
-                      alt="redditImg"
-                    />
-                    {/* <aside>{post.text}</aside> */}
-                    <a
-                      key={post.id}
-                      href={post.url}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <p className="redditUsername">Link to Reddit post</p>
-                      <p className="redditUrl">{post.url}</p>
-                    </a>
-                  </div>
-                </>
-              );
-            })}
+                      <p className="redditTitle">{post.name}</p>
+                      <img
+                        className="redditImg"
+                        src={post.image}
+                        alt="redditImg"
+                      />
+                      {/* <aside>{post.text}</aside> */}
+                      <a
+                        key={post.id}
+                        href={post.url}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <p className="redditUsername">Link to Reddit post</p>
+                        <p className="redditUrl">{post.url}</p>
+                      </a>
+                    </div>
+                  </>
+                );
+              })}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
