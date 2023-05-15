@@ -5,7 +5,7 @@ import NavBar from "./NavBar";
 function HomePage(props) {
   return (
     <>
-      <NavBar user={props.user} />
+      <NavBar user={props.user?.userName} />
       <div className="HomePage-container">
         <div className="signin">
           <Link to="/game-list" className="HomePage-GameList-button">

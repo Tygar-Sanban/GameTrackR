@@ -83,6 +83,11 @@
   margin: 1rem;
 }
 
+.profile-icon-link-to-user-profile {
+  display: flex;
+  align-items: center;
+}
+
 .divider {
   border-top: 2px solid white;
   width: 80%;
@@ -392,16 +397,16 @@ select:hover {
 .screenshot-image {
   background-size: cover;
   object-fit: cover;
-  width: 10rem;
-  height: 10rem;
+  width: 20%;
+  aspect-ratio: 1;
   border-radius: 5px;
   border: 1px solid white;
   margin: 0.5rem;
   transition: transform 0.7s ease;
 }
 .screenshot-image:hover {
-  transform: scale(5);
-  transform-origin: center;
+  transform: scale(290%);
+  transform-origin: right;
   transition-delay: 0.2s;
 }
 .screenshot-text {
@@ -467,6 +472,17 @@ select:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.link-to-gamelist {
+  font-weight: 600;
+  color: #8bc6ef;
+}
+
+.empty-user-profile h1 {
+  text-align: center;
+  font-family: "Game";
+  color: white;
 }
 
 /*Styling the Sign-In page*/

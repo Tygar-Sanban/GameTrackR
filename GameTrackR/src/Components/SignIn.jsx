@@ -12,6 +12,10 @@ function SignIn(props) {
   const [canSubmitPassword, setCanSubmitPassword] = useState(true);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    props.getAllProfiles();
+  }, []);
+
   function checkIfSameUserName() {
     setCanSubmitUserName(true);
     props.allProfiles.forEach((elem) => {
@@ -42,6 +46,9 @@ function SignIn(props) {
       email,
       userName,
       password,
+      likedGames: [],
+      wishList: [],
+      gamesPlayed: [],
     };
 
     if (canSubmitUserName && canSubmitPassword) {
@@ -50,8 +57,7 @@ function SignIn(props) {
           "https://ironrest.fly.dev/api/GameTrackR_UserData",
           objectToPost
         );
-        props.setUser(userName);
-        navigate("/user-profile");
+        navigate("/log-in");
       } catch (error) {
         console.log(error);
       }
@@ -60,7 +66,7 @@ function SignIn(props) {
 
   return (
     <div style={{ backgroundColor: "black" }}>
-      <NavBar user={props.user} />
+      <NavBar user={props.user?.userName} />
       <div className="form-container">
         <form onSubmit={handleSubmit} className="form">
           <label htmlFor="mailAdress">Mail Adress :</label>

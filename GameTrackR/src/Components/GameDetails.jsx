@@ -18,6 +18,29 @@ function GameDetails(props) {
   const param = useParams();
   const [screenshots, setScreenshots] = useState(null);
   const [liked, setLiked] = useState(false);
+  const [canUse, setCanUse] = useState(false);
+  console.log(props.user);
+
+  // if (props.user.likedGames.includes(param.gameId)) {
+  //   setLiked(true);
+  // }
+
+  useEffect(() => {
+    if (props.user?.likedGames.includes(param.gameId)) {
+      console.log(
+        "================================================LIKED ==================================="
+      );
+      setLiked(true);
+    }
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    console.log(props.user?.likedGames, param.gameId);
+  }, [props.user]);
+
+  useEffect(() => {
+    if (props.user) {
+      setCanUse(true);
+    }
+  }, [props.user]);
 
   useEffect(() => {
     axios
@@ -39,7 +62,6 @@ function GameDetails(props) {
       )
       .then((response) => {
         setScreenshots(response.data.results);
-        console.log("screenshots response", screenshots);
       })
       .catch((error) => {
         console.log(error);
@@ -51,7 +73,6 @@ function GameDetails(props) {
       const gameGenres = game.genres.map((elem) => {
         return elem.name;
       });
-      console.log("game GENRE", gameGenres);
 
       const oneGameGenre = game.genres.map((elem) => {
         return `&genres=${elem.name.toLowerCase()}`;
@@ -91,14 +112,25 @@ function GameDetails(props) {
     }
   }, [game]);
 
-  // async function handleLikeClick() {
-  //   setLiked(true);
-  //   try {
-  //     const response = await axios.patch();
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+  async function handleLikeClick() {
+    setLiked(true);
+    const objectToPatch = {
+      likedGames: [...props.user.likedGames, param.gameId],
+    };
+    console.log("this is the props.likedgames");
+    try {
+      const response = await axios.patch(
+        `https://ironrest.fly.dev/api/GameTrackR_UserData/${props.user._id}`,
+        objectToPatch
+      );
+      console.log(response);
+      delete response.data.password;
+      props.setUser(response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const platformLogos = {
     Xbox: xboxLogo,
@@ -163,7 +195,6 @@ function GameDetails(props) {
                 <div className="screenshot-container">
                   {screenshots &&
                     screenshots.map((elem) => {
-                      console.log("elem images", elem.image);
                       return (
                         <div
                           key={elem.id}
@@ -204,15 +235,24 @@ function GameDetails(props) {
             <tr>
               <td className="title">Actions</td>
               <td className="like">
-                {liked ? (
-                  <p>You like this game</p>
+                {canUse ? (
+                  liked ? (
+                    <p>You like this game</p>
+                  ) : (
+                    <img
+                      style={{ width: "3.5%" }}
+                      src="../../public/assets/Images/heart.png"
+                      alt="like"
+                      onClick={handleLikeClick}
+                    />
+                  )
                 ) : (
-                  <img
-                    style={{ width: "3.5%" }}
-                    src="../../public/assets/Images/heart.png"
-                    alt="like"
-                    // onClick={handleLikeClick}
-                  />
+                  <div>
+                    You need to be logged to interract with the game.{" "}
+                    <Link to="/log-in">
+                      <h4>Log in ?</h4>
+                    </Link>{" "}
+                  </div>
                 )}
               </td>
             </tr>
@@ -264,7 +304,6 @@ function GameDetails(props) {
       <Carousel>
         {relatedGenre &&
           relatedGenre.map((elem) => {
-            console.log(elem.background_image);
             const url = `/game-list/${elem.id}`;
             return (
               <CarouselItem key={elem.slug} className="carousel-item">

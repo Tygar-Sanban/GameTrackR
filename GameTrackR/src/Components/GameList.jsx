@@ -345,7 +345,7 @@ function GameList(props) {
                   src="../../public/assets/Images/user.png"
                   alt=""
                 />
-                <h3 className="displaying-user-name">{props.user}</h3>
+                <h3 className="displaying-user-name">{props.user.userName}</h3>
               </div>
             )}
           </nav>
