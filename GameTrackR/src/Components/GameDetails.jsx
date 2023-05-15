@@ -12,11 +12,12 @@ import linuxLogo from "../../public/assets/Images/linuxLogo.png";
 
 import axios from "axios";
 
-function GameDetails() {
+function GameDetails(props) {
   const [game, setGame] = useState(null);
   const [relatedGenre, setRelatedGenre] = useState(null);
   const param = useParams();
   const [screenshots, setScreenshots] = useState(null);
+  const [liked, setLiked] = useState(false);
 
   useEffect(() => {
     axios
@@ -70,6 +71,13 @@ function GameDetails() {
         return `&tags=${tag.name.toLowerCase()}`;
       });
 
+      // We could create a string while mapping like so :
+      // let exampleString = "";
+      // game.genres.map((elem)=> {
+      //   exampleString += elem
+      // })
+      // And then we put exampleString in the request
+
       axios
         .get(
           `https://api.rawg.io/api/games?key=b600c722cedc401fb777d82d17949bec${oneGameGenre[0]}${oneGameGenre[1]}${topTagsName[0]}${topTagsName[1]}${topTagsName[2]}`
@@ -82,6 +90,15 @@ function GameDetails() {
         });
     }
   }, [game]);
+
+  // async function handleLikeClick() {
+  //   setLiked(true);
+  //   try {
+  //     const response = await axios.patch();
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   const platformLogos = {
     Xbox: xboxLogo,
@@ -169,12 +186,12 @@ function GameDetails() {
               <td className="progress-bar">
                 <CircularProgressbar
                   className="small-progress-bar"
-                  value={game.rating * 20}
-                  text={`${game.rating}/5`}
+                  value={game.metacritic}
+                  text={`${game.metacritic}/100`}
                   strokeWidth={10}
                   styles={{
                     path: {
-                      stroke: `rgba(62, 152, 199, ${game.rating / 5})`,
+                      stroke: `rgba(62, 152, 199, ${game.metacritic / 100})`,
                     },
                     text: {
                       fill: "#fff",
@@ -185,16 +202,32 @@ function GameDetails() {
               </td>
             </tr>
             <tr>
+              <td className="title">Actions</td>
+              <td className="like">
+                {liked ? (
+                  <p>You like this game</p>
+                ) : (
+                  <img
+                    style={{ width: "3.5%" }}
+                    src="../../public/assets/Images/heart.png"
+                    alt="like"
+                    // onClick={handleLikeClick}
+                  />
+                )}
+              </td>
+            </tr>
+            <tr>
               <td className="title" style={{ width: "30%" }}>
                 Released on :
               </td>
               <td>{game.released}</td>
             </tr>
-
             <tr>
               <td className="title">Genres</td>
               <td>
-                {game.genres[0].name} / {game.genres[1].name}
+                {game.genres.map((elem) => {
+                  return <div key={game.id}>{elem.name}</div>;
+                })}
               </td>
             </tr>
             <tr>
@@ -210,7 +243,6 @@ function GameDetails() {
                 ))}
               </td>
             </tr>
-
             <tr>
               <td className="title">Tags :</td>
               <td key={game.tags.id}>
@@ -236,7 +268,7 @@ function GameDetails() {
             const url = `/game-list/${elem.id}`;
             return (
               <CarouselItem key={elem.slug} className="carousel-item">
-                <Link className="carousel-image" to={url}>
+                <Link className="carousel-image" to={url} target="_blank">
                   <div
                     className="carousel-image"
                     style={{

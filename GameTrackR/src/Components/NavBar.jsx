@@ -2,7 +2,7 @@ import React from "react";
 import Search from "./Search";
 import { Link } from "react-router-dom";
 
-function NavBar() {
+function NavBar(props) {
   return (
     <nav className="header">
       <Link to="/">
@@ -13,6 +13,16 @@ function NavBar() {
           />
         </div>
       </Link>
+      {props.user && (
+        <div className="user">
+          <img
+            className="user-icon"
+            src="../../public/assets/Images/user.png"
+            alt=""
+          />
+          <h3 className="displaying-user-name">{props.user}</h3>
+        </div>
+      )}
     </nav>
   );
 }

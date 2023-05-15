@@ -8,7 +8,7 @@ import DropdownGenres from "./Dropdowns/DropdownGenres";
 import DropdownTags from "./Dropdowns/DropdownTags";
 import DropdownRatings from "./Dropdowns/DropdownRatings";
 
-function GameList() {
+function GameList(props) {
   // Let's display the games and handle what happens when we reach the bottom of the page :
   const [platformsState, setPlatformsState] = useState("");
   const [storesState, setStoresState] = useState("");
@@ -31,6 +31,21 @@ function GameList() {
   }, []);
 
   useEffect(() => {
+    setCurrentPage(1);
+  }, [
+    platformsState,
+    storesState,
+    ratingsState,
+    genresState,
+    tagsState,
+    searchString,
+  ]);
+
+  useEffect(() => {
+    setSearchString("");
+  }, [platformsState, storesState, ratingsState, genresState, tagsState]);
+
+  useEffect(() => {
     if (
       searchString &&
       !genresState &&
@@ -40,7 +55,7 @@ function GameList() {
       !storesState
     ) {
       getSearchedGame(true);
-      console.log("fetch");
+      console.log("fetch search scroll");
     }
   }, [currentPage]);
 
@@ -55,7 +70,7 @@ function GameList() {
       !storesState
     ) {
       fetchElements();
-      console.log("fetch 200");
+      console.log("fetch neutral scroll");
     }
   }, [currentPage]);
 
@@ -69,7 +84,7 @@ function GameList() {
       (!searchString && storesState)
     ) {
       dropdownSearch(true);
-      console.log("fetch 3");
+      console.log("fetch dropdown scroll");
     }
   }, [currentPage]);
 
@@ -78,7 +93,7 @@ function GameList() {
 
     axios
       .get(
-        `https://api.rawg.io/api/games?key=b600c722cedc401fb777d82d17949bec&page=${currentPage}`
+        `https://api.rawg.io/api/games?key=b600c722cedc401fb777d82d17949bec&page=${currentPage}&page_size=40`
       )
       .then((response) => {
         setAllGames((prevElements) => [
@@ -115,9 +130,8 @@ function GameList() {
 
   async function getSearchedGame(bool) {
     try {
-      console.log(searchString);
       const response = await axios.get(
-        `https://api.rawg.io/api/games?key=b600c722cedc401fb777d82d17949bec&page=${currentPage}&search=${searchString}`
+        `https://api.rawg.io/api/games?key=b600c722cedc401fb777d82d17949bec&page=${currentPage}&search=${searchString}&page_size=40`
       );
 
       if (bool) {
@@ -131,16 +145,6 @@ function GameList() {
   }
   //Let's now deal with the dropdown menu
 
-  console.log(
-    "this is the platform state yo !!!",
-    platformsState,
-    typeof platformsState
-  );
-  console.log("this is the stores state yo !!!", storesState);
-  console.log("this is the ratings state yo !!!", ratingsState);
-  console.log("this is the genre state yo !!!", genresState);
-  console.log("this is the tags state yo !!!", tagsState);
-
   let platformsStateCode;
   let storesStateCode;
   let ratingsStateCode;
@@ -148,6 +152,9 @@ function GameList() {
   let tagsStateCode;
 
   switch (platformsState) {
+    case "platforms":
+      platformsStateCode = "";
+      break;
     case "pc":
       platformsStateCode = "&platforms=4";
       break;
@@ -174,6 +181,9 @@ function GameList() {
   }
 
   switch (storesState) {
+    case "stores":
+      storesStateCode = "";
+      break;
     case "steam":
       storesStateCode = "&stores=1";
       break;
@@ -195,6 +205,9 @@ function GameList() {
   }
 
   switch (ratingsState) {
+    case "ratings":
+      ratingsStateCode = "";
+      break;
     case "90+":
       ratingsStateCode = "&metacritic=90,100";
       break;
@@ -227,60 +240,29 @@ function GameList() {
       break;
   }
 
-  switch (genresState) {
-    case "90+":
-      genresStateCode = "&metacritic=90,100";
-      break;
-    case "80+":
-      genresStateCode = "&metacritic=80,89";
-      break;
-    case "70+":
-      genresStateCode = "&metacritic=70,79";
-      break;
-    case "60+":
-      genresStateCode = "&metacritic=60,69";
-      break;
-    case "50+":
-      genresStateCode = "&metacritic=50,59";
-      break;
-    case "40+":
-      genresStateCode = "&metacritic=40,49";
-      break;
-    case "30+":
-      genresStateCode = "&metacritic=30,39";
-      break;
-    case "20+":
-      genresStateCode = "&metacritic=20,29";
-      break;
-    case "10+":
-      genresStateCode = "&metacritic=10,19";
-      break;
-    case "0+":
-      genresStateCode = "&metacritic=0,9";
-      break;
-  }
+  genresStateCode =
+    genresState === "genres" ? "" : `&genres=${genresState.toLowerCase()}`;
+  tagsStateCode = tagsState === "tags" ? "" : `&tags=${tagsState}`;
 
-  genresStateCode = `&genres=${genresState.toLowerCase()}`;
-  tagsStateCode = `&tags=${tagsState}`;
+  let filterString = "";
 
   async function dropdownSearch(bool) {
-    let url = `https://api.rawg.io/api/games?key=b600c722cedc401fb777d82d17949bec&page=${currentPage}`;
-
     if (platformsState) {
-      url += platformsStateCode;
+      filterString += platformsStateCode;
     }
     if (storesState) {
-      url += storesStateCode;
+      filterString += storesStateCode;
     }
     if (ratingsState) {
-      url += ratingsStateCode;
+      filterString += ratingsStateCode;
     }
     if (genresState) {
-      url += genresStateCode;
+      filterString += genresStateCode;
     }
     if (tagsState) {
-      url += tagsStateCode;
+      filterString += tagsStateCode;
     }
+    let url = `https://api.rawg.io/api/games?key=b600c722cedc401fb777d82d17949bec&page=${currentPage}${filterString}&page_size=40`;
     console.log("this is the url", url);
     try {
       if (!allGames.length) return;
@@ -298,8 +280,16 @@ function GameList() {
   }
 
   useEffect(() => {
-    dropdownSearch();
-    console.log("fetching again?");
+    if (
+      platformsState ||
+      storesState ||
+      ratingsState ||
+      genresState ||
+      tagsState
+    ) {
+      dropdownSearch();
+      console.log("fetching dropdown filter change");
+    }
   }, [platformsState, storesState, ratingsState, genresState, tagsState]);
 
   //Now that it's done, let's display the page !
@@ -310,7 +300,7 @@ function GameList() {
         <div>Loading...</div>
       ) : (
         <div className="GameList-video-game-page">
-          <nav className="header">
+          <nav className="header-game-list">
             <Link to="/">
               <div className="logo">
                 <img
@@ -348,6 +338,16 @@ function GameList() {
                 handleSubmit={handleSubmit}
               />
             </ul>
+            {props.user && (
+              <div className="user">
+                <img
+                  className="user-icon"
+                  src="../../public/assets/Images/user.png"
+                  alt=""
+                />
+                <h3 className="displaying-user-name">{props.user}</h3>
+              </div>
+            )}
           </nav>
           {allGames.map((elem) => {
             const url = `/game-list/${elem.id}`;
@@ -355,6 +355,7 @@ function GameList() {
               <Link
                 key={elem.slug}
                 to={url}
+                target="_blank"
                 className="GameList-video-game"
                 style={{ backgroundImage: `url(${elem.background_image})` }}
               >

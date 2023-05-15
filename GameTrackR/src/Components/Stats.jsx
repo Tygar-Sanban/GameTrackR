@@ -1,6 +1,6 @@
 import React from "react";
 
-function Stats() {
+function Stats(props) {
   return <div>Stats</div>;
 }
 
