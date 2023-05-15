@@ -6,7 +6,7 @@ function NavBar() {
   return (
     <nav className="header">
       <Link to="/">
-        <div className="logo">
+        <div className="logo-details">
           <img
             src="../../public/assets/Images/gameTrackR_v2 (1).png"
             alt="logo.png"

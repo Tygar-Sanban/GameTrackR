@@ -17,6 +17,11 @@
   margin: 0 20%;
 }
 
+.logo-details {
+  width: 3rem;
+  height: 3rem;
+}
+
 .logo img {
   width: 100%;
 }
@@ -42,6 +47,10 @@
   justify-content: space-between;
 }
 
+.divider {
+  border-top: 2px solid white;
+  width: 80%;
+}
 .search-bar {
   width: 70%;
   margin: 0 20%;
@@ -272,9 +281,11 @@ select:hover {
 }
 
 .carousel-image {
-  border-radius: 5px;
+  border-radius: 10px;
   position: relative;
+  overflow: hidden;
 }
+
 .indicators button {
   background-color: #8bc6ef;
   width: 5rem;
@@ -327,13 +338,13 @@ select:hover {
 
 .screenshot-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
-  height: 10rem;
+  justify-content: space-evenly;
   background-color: rgb(48, 48, 48);
-  overflow: hidden;
   border-radius: 5px;
+  height: auto;
 }
 
 .screenshot-image {
@@ -344,8 +355,13 @@ select:hover {
   border-radius: 5px;
   border: 1px solid white;
   margin: 0.5rem;
+  transition: transform 0.7s ease;
 }
-
+.screenshot-image:hover {
+  transform: scale(3);
+  transform-origin: center;
+  transition-delay: 0.6s;
+}
 .screenshot-text {
   background-color: rgb(48, 48, 48);
   text-align: center;
@@ -356,4 +372,37 @@ select:hover {
 .title {
   text-decoration: underline 2px;
   color: #8bc6ef;
+  border: 1px solid white;
+}
+
+.reviewTable {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.reviewTable td {
+  border: 1px solid black;
+  width: 20rem;
+}
+
+.ratingContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.iconContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.iconContainer img {
+  width: 80px;
+  height: 80px;
+  filter: hue-rotate(180deg); /* Change color of icons */
+}
+
+.iconContainer img:hover {
+  filter: hue-rotate(180deg); /* Change color of icons on hover */
 }
