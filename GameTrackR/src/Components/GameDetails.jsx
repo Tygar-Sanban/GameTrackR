@@ -8,6 +8,7 @@ import playstationLogo from "../../public/assets/Images/playstationLogo.png";
 import xboxLogo from "../../public/assets/Images/xboxLogo.png";
 import laptopLogo from "../../public/assets/Images/laptopLogo.png";
 import switchLogo from "../../public/assets/Images/switchLogo.png";
+import linuxLogo from "../../public/assets/Images/linuxLogo.png";
 
 import axios from "axios";
 
@@ -87,7 +88,7 @@ function GameDetails() {
     PlayStation: playstationLogo,
     Nintendo: switchLogo,
     PC: laptopLogo,
-    // map the platform names to their corresponding logos
+    Linux: linuxLogo,
   };
 
   if (!game) {
@@ -103,10 +104,66 @@ function GameDetails() {
         ></div>
         <h1>{game.name}</h1>
       </div>
+
       <div className="detailsTable">
         <table>
           <thead></thead>
           <tbody>
+            <tr>
+              <td className="title">Player state</td>
+              <td>
+                <div className="ratingContainer">
+                  <p>Played the game ?</p>
+                  <p>Liked the game ?</p>
+                  <p>Put in the wishlist</p>
+                  <p>Send to a friend</p>
+                </div>
+              </td>
+            </tr>
+            <div className="divider"></div>
+            <tr>
+              <td className="title">Icons Player state</td>
+
+              <td>
+                <div className="iconContainer">
+                  <img
+                    src="/public/assets/Images/gamepad-solid (2).svg"
+                    alt="gamepad"
+                  />
+                  <img
+                    src="/public/assets/Images/heart-regular.svg"
+                    alt="gamepad"
+                  />
+                  <img src="/public/assets/Images/wishlist.png" alt="gamepad" />
+                  <img src="/public/assets/Images/send.png" alt="gamepad" />
+                </div>
+              </td>
+            </tr>
+            <div className="divider"></div>
+            <tr>
+              <td className="title">screenshots</td>
+              <td>
+                <div className="screenshot-container">
+                  {screenshots &&
+                    screenshots.map((elem) => {
+                      console.log("elem images", elem.image);
+                      return (
+                        <div
+                          key={elem.id}
+                          className="screenshot-image"
+                          style={{
+                            cursor: "pointer",
+                            backgroundImage: `url(${elem.image})`,
+                            // width: large ? "800px" : "10rem",
+                            // height: large ? "20rem" : "10rem",
+                          }}
+                        />
+                      );
+                    })}
+                  {/* <button onClick={toggleSize}>Larger pictures</button> */}
+                </div>
+              </td>
+            </tr>
             <tr>
               <td className="title">Rating</td>
               <td className="progress-bar">
@@ -193,22 +250,6 @@ function GameDetails() {
             );
           })}
       </Carousel>
-      <p className="screenshot-text">Screenshots</p>
-      <div className="screenshot-container">
-        {screenshots &&
-          screenshots.map((elem) => {
-            console.log("elem images", elem.image);
-            return (
-              <div
-                key={elem.id}
-                className="screenshot-image"
-                style={{
-                  backgroundImage: `url(${elem.image})`,
-                }}
-              />
-            );
-          })}
-      </div>
     </>
   );
 }
