@@ -325,6 +325,7 @@ select:hover {
 
 .carousel {
   background-color: rgb(48, 48, 48);
+  padding: 2rem;
 }
 
 .carousel-image {
@@ -362,7 +363,7 @@ select:hover {
 }
 
 .detailsTable td {
-  padding: 1rem;
+  padding: 3rem;
 }
 
 .small-progress-bar {
@@ -417,9 +418,20 @@ select:hover {
 }
 
 .title {
-  text-decoration: underline 2px;
-  color: #8bc6ef;
-  border: 1px solid white;
+  text-decoration: underline 1px #8bc6ef;
+
+  color: aliceblue;
+  font-size: 1.5rem;
+}
+
+.released {
+  text-align: center;
+  font-size: 1rem;
+}
+
+.genres {
+  text-align: center;
+  font-size: 1rem;
 }
 
 .reviewTable {
@@ -445,13 +457,75 @@ select:hover {
 }
 
 .iconContainer img {
-  width: 80px;
-  height: 80px;
-  filter: hue-rotate(180deg); /* Change color of icons */
+  width: 100px;
+  height: 100px;
 }
 
-.iconContainer img:hover {
-  filter: hue-rotate(180deg); /* Change color of icons on hover */
+.iconContainer i:hover {
+  filter: hue-rotate(180deg);
+}
+
+.platforms {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.buy {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.storeLogos {
+  filter: contrast(10);
+  width: 100px;
+}
+
+.redditPost {
+  border-bottom: 1px solid #fff;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.redditPost p {
+  padding: 1rem;
+}
+
+.redditTitle {
+  font-size: 1rem;
+  text-decoration: underline;
+  color: lightgray;
+}
+
+.redditUrl {
+  color: #8bc6ef;
+}
+
+.redditUsername {
+  color: lightgray;
+  text-decoration: underline;
+}
+
+.redditImg {
+  width: 50%;
+  transition: transform 0.7s ease;
+  border-radius: 10px;
+}
+
+.redditImg:hover {
+  scale: 1.5;
+  transition-delay: 0.5s;
+}
+
+.redditTitleDiv {
+  font-size: 2rem;
+  text-align: center;
 }
 
 /*Styling the User-Profile page*/
