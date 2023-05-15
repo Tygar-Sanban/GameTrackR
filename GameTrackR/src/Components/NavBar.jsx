@@ -6,7 +6,7 @@ function NavBar(props) {
   return (
     <nav className="header">
       <Link to="/">
-        <div className="logo-details">
+        <div className="logo">
           <img
             src="../../public/assets/Images/gameTrackR_v2 (1).png"
             alt="logo.png"
