@@ -9,6 +9,18 @@ import xboxLogo from "../../public/assets/Images/xboxLogo.png";
 import laptopLogo from "../../public/assets/Images/laptopLogo.png";
 import switchLogo from "../../public/assets/Images/switchLogo.png";
 import linuxLogo from "../../public/assets/Images/linuxLogo.png";
+import gogLogo from "../../public/assets/Images/gogLogo.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faGamepad } from "@fortawesome/free-solid-svg-icons";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faListCheck } from "@fortawesome/free-solid-svg-icons";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+library.add(faHeart);
+library.add(faListCheck);
+library.add(faGamepad);
+library.add(faPaperPlane);
 
 import axios from "axios";
 
@@ -18,6 +30,8 @@ function GameDetails(props) {
   const param = useParams();
   const [screenshots, setScreenshots] = useState(null);
   const [liked, setLiked] = useState(false);
+  const [stores, setStores] = useState(null);
+  const [reddit, setReddit] = useState(null);
 
   useEffect(() => {
     axios
@@ -32,6 +46,8 @@ function GameDetails(props) {
       });
   }, [param]);
 
+  // GET SCREENSHOTS OF THE GAME
+
   useEffect(() => {
     axios
       .get(
@@ -39,12 +55,46 @@ function GameDetails(props) {
       )
       .then((response) => {
         setScreenshots(response.data.results);
-        console.log("screenshots response", screenshots);
       })
       .catch((error) => {
         console.log(error);
       });
   }, [param]);
+
+  // GET STORES SELLING THE GAME
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://api.rawg.io/api/games/${param.gameId}/stores?key=b600c722cedc401fb777d82d17949bec`
+      )
+      .then((response) => {
+        console.log("STORES RESPONSE", response);
+        setStores(response.data.results);
+        console.log("setStores", stores);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [param]);
+
+  // RECENTS REDDIT POSTS
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://api.rawg.io/api/games/${param.gameId}/reddit?id=&key=b600c722cedc401fb777d82d17949bec&page_size=100`
+      )
+      .then((response) => {
+        setReddit(response.data.results);
+        console.log("REDDIT", reddit);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [param]);
+
+  // RELATED GENRE AND TAGS
 
   useEffect(() => {
     if (game) {
@@ -108,6 +158,14 @@ function GameDetails(props) {
     Linux: linuxLogo,
   };
 
+  const storeLogos = {
+    5: "/assets/Images/gogLogo.svg",
+    3: "/assets/Images/psnLogo.png",
+    1: "/assets/Images/steamLogo.png",
+    2: "/assets/Images/microsoftLogo.png",
+    6: "/assets/Images/nintendoShopLogo.svg",
+  };
+
   if (!game) {
     return <div>Loading...</div>;
   }
@@ -127,14 +185,23 @@ function GameDetails(props) {
           <thead></thead>
           <tbody>
             <tr>
-              <td className="title">Player state</td>
-              <td>
-                <div className="ratingContainer">
-                  <p>Played the game ?</p>
-                  <p>Liked the game ?</p>
-                  <p>Put in the wishlist</p>
-                  <p>Send to a friend</p>
-                </div>
+              <td className="title">Rating</td>
+              <td className="progress-bar">
+                <CircularProgressbar
+                  className="small-progress-bar"
+                  value={game.metacritic}
+                  text={`${game.metacritic}/100`}
+                  strokeWidth={10}
+                  styles={{
+                    path: {
+                      stroke: `rgba(62, 152, 199, ${game.metacritic / 100})`,
+                    },
+                    text: {
+                      fill: "#fff",
+                      fontSize: "16px",
+                    },
+                  }}
+                />
               </td>
             </tr>
             <div className="divider"></div>
@@ -143,19 +210,105 @@ function GameDetails(props) {
 
               <td>
                 <div className="iconContainer">
-                  <img
-                    src="/public/assets/Images/gamepad-solid (2).svg"
-                    alt="gamepad"
-                  />
-                  <img
-                    src="/public/assets/Images/heart-regular.svg"
-                    alt="gamepad"
-                  />
-                  <img src="/public/assets/Images/wishlist.png" alt="gamepad" />
-                  <img src="/public/assets/Images/send.png" alt="gamepad" />
+                  <div style={{ textAlign: "center" }}>
+                    <i>
+                      <FontAwesomeIcon
+                        icon="fa-solid fa-gamepad"
+                        size="10x"
+                        style={{ color: "#8bc6ef" }}
+                      />
+                    </i>
+                    <h4 style={{ marginTop: "1rem" }}>Played it ?</h4>
+                  </div>
+                  <div style={{ textAlign: "center" }}>
+                    <i>
+                      <FontAwesomeIcon
+                        icon="fa-solid fa-heart"
+                        size="10x"
+                        style={{ color: "#8bc6ef" }}
+                      />
+                    </i>
+                    <h4 style={{ marginTop: "1rem" }}>Liked it ?</h4>
+                  </div>
+                  <div style={{ textAlign: "center" }}>
+                    <i>
+                      <FontAwesomeIcon
+                        icon="fa-solid fa-list-check"
+                        size="10x"
+                        style={{ color: "#8bc6ef" }}
+                      />
+                    </i>
+                    <h4 style={{ marginTop: "1rem" }}>Add to wishlist</h4>
+                  </div>
+                  <div style={{ textAlign: "center" }}>
+                    <i>
+                      <FontAwesomeIcon
+                        icon="fa-solid fa-paper-plane"
+                        size="10x"
+                        style={{ color: "#8bc6ef" }}
+                      />
+                    </i>
+                    <h4 style={{ marginTop: "1rem" }}>Send to a friend</h4>
+                  </div>
                 </div>
               </td>
             </tr>
+            <div className="divider"></div>
+            <tr>
+              <td className="title" style={{ width: "30%" }}>
+                Released on :
+              </td>
+              <td className="released">{game.released}</td>
+            </tr>
+            <div className="divider"></div>
+            <tr>
+              <td className="title">Platforms</td>
+              <td className="platforms">
+                {game.parent_platforms.map((platform) => (
+                  <>
+                    <img
+                      className="logos"
+                      key={platform.platform.id}
+                      src={platformLogos[platform.platform.name]}
+                      alt={platform.platform.name}
+                    />
+                  </>
+                ))}
+              </td>
+            </tr>
+            <tr>
+              <td className="title">Buy the game</td>
+              <td className="buy">
+                {stores.map((store) => {
+                  return (
+                    <a
+                      key={store.store_id}
+                      href={store.url}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <img
+                        className="storeLogos"
+                        key={store.store_id}
+                        src={storeLogos[store.store_id]}
+                        alt="store"
+                      />
+                    </a>
+                  );
+                })}
+              </td>
+            </tr>
+            <div className="divider"></div>
+            <tr>
+              <td className="title">Genres</td>
+              <td className="genres">
+                {game.genres.map((elem) => {
+                  return <div key={game.id}>{elem.name}</div>;
+                })}
+              </td>
+            </tr>
+            <div className="divider"></div>
+
             <div className="divider"></div>
             <tr>
               <td className="title">screenshots</td>
@@ -181,26 +334,21 @@ function GameDetails(props) {
                 </div>
               </td>
             </tr>
+            <div className="divider"></div>
             <tr>
-              <td className="title">Rating</td>
-              <td className="progress-bar">
-                <CircularProgressbar
-                  className="small-progress-bar"
-                  value={game.metacritic}
-                  text={`${game.metacritic}/100`}
-                  strokeWidth={10}
-                  styles={{
-                    path: {
-                      stroke: `rgba(62, 152, 199, ${game.metacritic / 100})`,
-                    },
-                    text: {
-                      fill: "#fff",
-                      fontSize: "16px",
-                    },
-                  }}
-                />
+              <td className="title">Description :</td>
+              <td>{game.description_raw}</td>
+            </tr>
+            <tr>
+              <td className="title">Tags :</td>
+              <td key={game.tags.id}>
+                {game.tags.map((tag) => {
+                  return `${tag.slug} / `;
+                })}
               </td>
             </tr>
+            <div className="divider"></div>
+
             <tr>
               <td className="title">Actions</td>
               <td className="like">
@@ -211,49 +359,9 @@ function GameDetails(props) {
                     style={{ width: "3.5%" }}
                     src="../../public/assets/Images/heart.png"
                     alt="like"
-                    // onClick={handleLikeClick}
                   />
                 )}
               </td>
-            </tr>
-            <tr>
-              <td className="title" style={{ width: "30%" }}>
-                Released on :
-              </td>
-              <td>{game.released}</td>
-            </tr>
-            <tr>
-              <td className="title">Genres</td>
-              <td>
-                {game.genres.map((elem) => {
-                  return <div key={game.id}>{elem.name}</div>;
-                })}
-              </td>
-            </tr>
-            <tr>
-              <td className="title">Platforms</td>
-              <td>
-                {game.parent_platforms.map((platform) => (
-                  <img
-                    className="logos"
-                    key={platform.platform.id}
-                    src={platformLogos[platform.platform.name]}
-                    alt={platform.platform.name}
-                  />
-                ))}
-              </td>
-            </tr>
-            <tr>
-              <td className="title">Tags :</td>
-              <td key={game.tags.id}>
-                {game.tags.map((tag) => {
-                  return `${tag.slug} / `;
-                })}
-              </td>
-            </tr>
-            <tr>
-              <td className="title">Description :</td>
-              <td>{game.description_raw}</td>
             </tr>
             <tr>
               <td className="title">You may also like</td>
@@ -282,6 +390,40 @@ function GameDetails(props) {
             );
           })}
       </Carousel>
+
+      <div className="detailsTable">
+        <div className="redditTitleDiv">Recent Reddit Posts</div>
+        <div className="redditContainer" key={reddit.id}>
+          {reddit
+            .filter((post) => post.image)
+            .map((post) => {
+              return (
+                <>
+                  <div className="redditPost">
+                    <p className="redditUsername">Username {post.username}</p>
+
+                    <p className="redditTitle">{post.name}</p>
+                    <img
+                      className="redditImg"
+                      src={post.image}
+                      alt="redditImg"
+                    />
+                    {/* <aside>{post.text}</aside> */}
+                    <a
+                      key={post.id}
+                      href={post.url}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <p className="redditUsername">Link to Reddit post</p>
+                      <p className="redditUrl">{post.url}</p>
+                    </a>
+                  </div>
+                </>
+              );
+            })}
+        </div>
+      </div>
     </>
   );
 }
