@@ -2,7 +2,7 @@ import "./App.css";
 import GameDetails from "./Components/GameDetails";
 import GameList from "./Components/GameList";
 import HomePage from "./Components/HomePage";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import UserProfile from "./Components/UserProfile";
 import Stats from "./Components/Stats";
 import News from "./Components/News";
@@ -12,10 +12,13 @@ import LogIn from "./Components/LogIn";
 import axios, { all } from "axios";
 
 function App() {
+  const location = useLocation();
   const [user, setUser] = useState(null);
   const [likedGames, setLikedGames] = useState([]);
+  const [playedGames, setPlayedGames] = useState([]);
+  const [wishedGames, setWishedGames] = useState([]);
   const [allProfiles, setAllProfiles] = useState([]);
-  const [userId, setUserId] = useState("");
+  console.log("+++++++++++++++++", location.pathname);
 
   async function getAllProfiles() {
     try {
@@ -28,34 +31,18 @@ function App() {
     }
   }
 
-  console.log("this is all profiles", allProfiles);
-
-  function getUserId() {
-    allProfiles.map((elem) => {
-      if (elem.userName === user) {
-        setUserId(elem._id);
-        return userId;
-      }
-    });
-  }
-
   function getUserLikedGames() {
-    allProfiles.map((elem) => {
-      if (elem.userName === user) {
-        setLikedGames(elem.likedGames);
-      }
-      return;
-    });
+    if (user) {
+      setLikedGames(user.likedGames);
+      // console.log("those are the liked games yo !", likedGames);
+    }
   }
-  console.log("test", likedGames, typeof likedGames);
-
-  useEffect(() => {
-    getUserId();
-  }, [user]);
 
   useEffect(() => {
     getUserLikedGames();
-  }, [user]);
+    console.log("fetching all the fat games");
+    console.log("this is the user", user);
+  }, [user, location]);
 
   useEffect(() => {
     getAllProfiles();
@@ -75,7 +62,6 @@ function App() {
             <HomePage
               user={user}
               setUser={setUser}
-              userId={userId}
               likedGames={likedGames}
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
@@ -88,7 +74,6 @@ function App() {
             <GameList
               user={user}
               setUser={setUser}
-              userId={userId}
               likedGames={likedGames}
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
@@ -101,7 +86,6 @@ function App() {
             <GameDetails
               user={user}
               setUser={setUser}
-              userId={userId}
               likedGames={likedGames}
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
@@ -114,7 +98,6 @@ function App() {
             <UserProfile
               user={user}
               setUser={setUser}
-              userId={userId}
               likedGames={likedGames}
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
@@ -127,7 +110,6 @@ function App() {
             <SignIn
               user={user}
               setUser={setUser}
-              userId={userId}
               likedGames={likedGames}
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
@@ -141,7 +123,6 @@ function App() {
             <LogIn
               user={user}
               setUser={setUser}
-              userId={userId}
               likedGames={likedGames}
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
@@ -155,7 +136,6 @@ function App() {
             <Stats
               user={user}
               setUser={setUser}
-              userId={userId}
               likedGames={likedGames}
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}

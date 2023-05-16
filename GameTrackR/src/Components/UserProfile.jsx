@@ -4,43 +4,29 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function UserProfile(props) {
-  const [likedGames, setLikedGames] = useState(null);
-  const [likedGamesToDisplay, setLikedGamesToDisplay] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const userToJS = JSON.parse(storedUser);
+      props.setUser(userToJS);
+    }
+  }, []);
 
   function handleDisconnect() {
     localStorage.removeItem("user");
     props.setUser(null);
+    props.setLikedGames([]);
     navigate("/");
   }
-
-  useEffect(() => {
-    if (props.user.likedGames) {
-      setLikedGames(props.user.likedGames);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (likedGames) {
-      likedGames.map((elem) => {
-        axios
-          .get(
-            `https://api.rawg.io/api/games/${elem}?key=b600c722cedc401fb777d82d17949bec`
-          )
-          .then((response) => {
-            console.log("this is the response.data", response.data);
-            setLikedGames((current) => [...current, response.data]);
-          });
-      });
-    }
-  }, [props.user]);
 
   return (
     <div style={{ backgroundColor: "black" }}>
       <button onClick={handleDisconnect}>Disconnect</button>
       <NavBar user={props.user?.userName} />
-      {props.user ? (
-        !likedGamesToDisplay ? (
+      {props.likedGames ? (
+        props.likedGames.length === 0 ? (
           <div className="empty-user-profile">
             <h1>
               You haven't had any activity on this website yet. Checkout the{" "}
@@ -53,7 +39,7 @@ function UserProfile(props) {
         ) : (
           <div className="GameList-video-game-page">
             <h1>Your Liked Games</h1>
-            {likedGamesToDisplay.map((likedGame) => {
+            {props.likedGames.map((likedGame) => {
               const url = `/game-list/${likedGame.id}`;
               return (
                 <Link
