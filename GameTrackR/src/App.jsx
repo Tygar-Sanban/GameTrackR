@@ -2,7 +2,7 @@ import "./App.css";
 import GameDetails from "./Components/GameDetails";
 import GameList from "./Components/GameList";
 import HomePage from "./Components/HomePage";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import UserProfile from "./Components/UserProfile";
 import Stats from "./Components/Stats";
 import News from "./Components/News";
@@ -16,6 +16,9 @@ function App() {
   const [likedGames, setLikedGames] = useState([]);
   const [allProfiles, setAllProfiles] = useState([]);
   const [userId, setUserId] = useState("");
+  const [commentaryDisplay, setCommentaryDisplay] = useState([]);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const location = useLocation();
 
   async function getAllProfiles() {
     try {
@@ -66,6 +69,21 @@ function App() {
     }
   }, []);
 
+  function fetchComments() {
+    axios
+      .get(`https://ironrest.fly.dev/api/GameTrackR_Commentaries`)
+      .then((response) => {
+        console.log("responses ironrest", response);
+        setCommentaryDisplay(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  useEffect(() => {
+    fetchComments();
+  }, [location]);
+
   return (
     <>
       <Routes>
@@ -99,12 +117,17 @@ function App() {
           path="/game-list/:gameId"
           element={
             <GameDetails
+              formSubmitted={formSubmitted}
+              setFormSubmitted={setFormSubmitted}
+              commentaryDisplay={commentaryDisplay}
+              setCommentaryDisplay={setCommentaryDisplay}
               user={user}
               setUser={setUser}
               userId={userId}
               likedGames={likedGames}
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
+              fetchComments={fetchComments}
             />
           }
         />

@@ -93,7 +93,7 @@ function GameList(props) {
 
     axios
       .get(
-        `https://api.rawg.io/api/games?key=b600c722cedc401fb777d82d17949bec&page=${currentPage}&page_size=40`
+        `https://api.rawg.io/api/games?key=fa9c45d8169145c5a9d8796aa3e09890&page=${currentPage}&page_size=40`
       )
       .then((response) => {
         setAllGames((prevElements) => [
@@ -131,7 +131,7 @@ function GameList(props) {
   async function getSearchedGame(bool) {
     try {
       const response = await axios.get(
-        `https://api.rawg.io/api/games?key=b600c722cedc401fb777d82d17949bec&page=${currentPage}&search=${searchString}&page_size=40`
+        `https://api.rawg.io/api/games?key=fa9c45d8169145c5a9d8796aa3e09890&page=${currentPage}&search=${searchString}&page_size=40`
       );
 
       if (bool) {
@@ -262,7 +262,7 @@ function GameList(props) {
     if (tagsState) {
       filterString += tagsStateCode;
     }
-    let url = `https://api.rawg.io/api/games?key=b600c722cedc401fb777d82d17949bec&page=${currentPage}${filterString}&page_size=40`;
+    let url = `https://api.rawg.io/api/games?key=fa9c45d8169145c5a9d8796aa3e09890&page=${currentPage}${filterString}&page_size=40`;
     console.log("this is the url", url);
     try {
       if (!allGames.length) return;

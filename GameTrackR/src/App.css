@@ -91,7 +91,7 @@
 
 .divider {
   border-top: 2px solid white;
-  width: 80%;
+  width: 150%;
 }
 
 .search-bar {
@@ -361,7 +361,7 @@ select:hover {
 }
 
 .detailsTable {
-  font-family: "Game";
+  font-family: "Poppins", sans-serif;
   font-size: 0.7rem;
   background-color: rgb(48, 48, 48);
   color: #fff;
@@ -370,6 +370,8 @@ select:hover {
 
 .detailsTable td {
   padding: 3rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
 }
 
 .small-progress-bar {
@@ -424,15 +426,13 @@ select:hover {
 }
 
 .title {
-  text-decoration: underline 1px #8bc6ef;
-
   color: aliceblue;
   font-size: 1.5rem;
 }
 
 .released {
   text-align: center;
-  font-size: 1rem;
+  font-size: 2.5rem;
 }
 
 .genres {
@@ -488,6 +488,25 @@ select:hover {
   width: 100px;
 }
 
+.reddit-comment-container {
+  font-size: 0.7rem;
+  background-color: rgb(48, 48, 48);
+  color: #fff;
+  padding: 1rem;
+  display: flex;
+  font-family: "Poppins", sans-serif;
+}
+.redditContainer {
+  width: 50vw;
+  border-right: 1px solid white;
+  overflow: hidden;
+}
+
+.comment-section {
+  width: 50vw;
+  color: #fff;
+}
+
 .redditPost {
   border-bottom: 1px solid #fff;
 
@@ -532,6 +551,21 @@ select:hover {
 .redditTitleDiv {
   font-size: 2rem;
   text-align: center;
+  background-color: rgb(48, 48, 48);
+}
+
+.comment-div {
+  display: flex;
+  flex-direction: column-reverse;
+  width: 90%;
+  margin: 1rem;
+}
+
+.commentary {
+  border: 1px solid #0d6efd;
+  border-radius: 10px;
+  padding: 1rem;
+  background-color: #134e79;
 }
 
 /*Styling the User-Profile page*/
@@ -615,3 +649,5 @@ select:hover {
   color: red;
   font-weight: 800;
 }
+
+/* Comment section */
