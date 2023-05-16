@@ -14,15 +14,14 @@ import axios, { all } from "axios";
 function App() {
   const location = useLocation();
   const [user, setUser] = useState(null);
+  const [allProfiles, setAllProfiles] = useState([]);
   const [likedGames, setLikedGames] = useState([]);
   const [playedGames, setPlayedGames] = useState([]);
   const [wishedGames, setWishedGames] = useState([]);
-  const [allProfiles, setAllProfiles] = useState([]);
 
-  
   const [commentaryDisplay, setCommentaryDisplay] = useState([]);
   const [formSubmitted, setFormSubmitted] = useState(false);
-  
+
   async function getAllProfiles() {
     try {
       const response = await axios.get(
@@ -37,14 +36,25 @@ function App() {
   function getUserLikedGames() {
     if (user) {
       setLikedGames(user.likedGames);
-      // console.log("those are the liked games yo !", likedGames);
+    }
+  }
+
+  function getUserWishedGames() {
+    if (user) {
+      setWishedGames(user.wishList);
+    }
+  }
+
+  function getUserPlayedGames() {
+    if (user) {
+      setPlayedGames(user.gamesPlayed);
     }
   }
 
   useEffect(() => {
     getUserLikedGames();
-    console.log("fetching all the fat games");
-    console.log("this is the user", user);
+    getUserPlayedGames();
+    getUserWishedGames();
   }, [user, location]);
 
   useEffect(() => {
@@ -83,6 +93,8 @@ function App() {
               likedGames={likedGames}
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
+              playedGames={playedGames}
+              wishedGames={wishedGames}
             />
           }
         ></Route>
@@ -95,6 +107,8 @@ function App() {
               likedGames={likedGames}
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
+              playedGames={playedGames}
+              wishedGames={wishedGames}
             />
           }
         />
@@ -112,6 +126,8 @@ function App() {
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
               fetchComments={fetchComments}
+              playedGames={playedGames}
+              wishedGames={wishedGames}
             />
           }
         />
@@ -124,6 +140,8 @@ function App() {
               likedGames={likedGames}
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
+              playedGames={playedGames}
+              wishedGames={wishedGames}
             />
           }
         />
@@ -137,6 +155,8 @@ function App() {
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
               getAllProfiles={getAllProfiles}
+              playedGames={playedGames}
+              wishedGames={wishedGames}
             />
           }
         />
@@ -150,6 +170,8 @@ function App() {
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
               getAllProfiles={getAllProfiles}
+              playedGames={playedGames}
+              wishedGames={wishedGames}
             />
           }
         />
@@ -162,6 +184,8 @@ function App() {
               likedGames={likedGames}
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
+              playedGames={playedGames}
+              wishedGames={wishedGames}
             />
           }
         />

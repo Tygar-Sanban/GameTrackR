@@ -33,6 +33,8 @@ function GameDetails(props) {
   const param = useParams();
   const [screenshots, setScreenshots] = useState(null);
   const [liked, setLiked] = useState(false);
+  const [wished, setWished] = useState(false);
+  const [played, setPlayed] = useState(false);
 
   const [canUse, setCanUse] = useState(false);
 
@@ -69,18 +71,23 @@ function GameDetails(props) {
     setSendCheckVisible(!sendCheckVisible);
   };
 
-
-
   useEffect(() => {
-
     if (props.user && props.user.likedGames) {
       props.user.likedGames.map((elem) => {
         elem.id === parseInt(param.gameId) && setLiked(true);
       });
     }
-
+    if (props.user && props.user.wishList) {
+      props.user.wishList.map((elem) => {
+        elem.id === parseInt(param.gameId) && setWished(true);
+      });
+    }
+    if (props.user && props.user.gamesPlayed) {
+      props.user.gamesPlayed.map((elem) => {
+        elem.id === parseInt(param.gameId) && setPlayed(true);
+      });
+    }
     if (props.user) {
-      console.log("FETCHING");
       setCanUse(true);
     }
   }, [props.user]);
@@ -122,7 +129,6 @@ function GameDetails(props) {
         `https://api.rawg.io/api/games/${param.gameId}/stores?key=fa9c45d8169145c5a9d8796aa3e09890`
       )
       .then((response) => {
-
         setStores(response.data.results);
       })
       .catch((error) => {
@@ -140,7 +146,6 @@ function GameDetails(props) {
         console.log(error);
       });
   }, [param]);
-
 
   useEffect(() => {
     if (game) {
@@ -169,7 +174,7 @@ function GameDetails(props) {
       // We could create a string while mapping like so :
       // let exampleString = "";
       // game.genres.map((elem)=> {
-      //   exampleString += elem
+      //   exampleString += &genres=${elem}
       // })
       // And then we put exampleString in the request
 
@@ -205,6 +210,42 @@ function GameDetails(props) {
     }
   }
 
+  async function handleWishClick() {
+    setWished(true);
+    const objectToPatch = {
+      wishList: [...props.user.wishList, game],
+    };
+    try {
+      const response = await axios.patch(
+        `https://ironrest.fly.dev/api/GameTrackR_UserData/${props.user._id}`,
+        objectToPatch
+      );
+      delete response.data.password;
+      props.setUser(response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handlePlayClick() {
+    setPlayed(true);
+    const objectToPatch = {
+      gamesPlayed: [...props.user.gamesPlayed, game],
+    };
+    try {
+      const response = await axios.patch(
+        `https://ironrest.fly.dev/api/GameTrackR_UserData/${props.user._id}`,
+        objectToPatch
+      );
+      delete response.data.password;
+      props.setUser(response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async function handleDislike() {
     setLiked(false);
 
@@ -213,7 +254,50 @@ function GameDetails(props) {
         return elem.id !== parseInt(param.gameId);
       }),
     };
+    try {
+      const response = await axios.patch(
+        `https://ironrest.fly.dev/api/GameTrackR_UserData/${props.user._id}`,
+        objectToPatch
+      );
 
+      delete response.data.password;
+      props.setUser(response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handleDisWish() {
+    setWished(false);
+
+    const objectToPatch = {
+      wishList: props.user.wishList.filter((elem) => {
+        return elem.id !== parseInt(param.gameId);
+      }),
+    };
+    try {
+      const response = await axios.patch(
+        `https://ironrest.fly.dev/api/GameTrackR_UserData/${props.user._id}`,
+        objectToPatch
+      );
+
+      delete response.data.password;
+      props.setUser(response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handleDisPlay() {
+    setPlayed(false);
+
+    const objectToPatch = {
+      gamesPlayed: props.user.gamesPlayed.filter((elem) => {
+        return elem.id !== parseInt(param.gameId);
+      }),
+    };
     try {
       const response = await axios.patch(
         `https://ironrest.fly.dev/api/GameTrackR_UserData/${props.user._id}`,
@@ -293,88 +377,113 @@ function GameDetails(props) {
         <div className="iconContainer">
           <div style={{ textAlign: "center" }}>
             <i>
-              <FontAwesomeIcon
-                icon="fa-solid fa-gamepad"
-                size="10x"
-                style={{ color: gamepadColor }}
-                onClick={handleGamepadClick}
-              />
-              {gamepadCheckVisible && (
-                <FontAwesomeIcon
-                  icon={faCheck}
-                  style={{
-                    position: "absolute",
-                    color: "#0B7A75",
-                    fontSize: "3em",
-                  }}
-                />
+              {canUse ? (
+                played ? (
+                  <>
+                    <FontAwesomeIcon
+                      icon="fa-solid fa-gamepad"
+                      size="10x"
+                      style={{ color: "#0B7A75" }}
+                      onClick={handleDisPlay}
+                    />
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      style={{
+                        position: "absolute",
+                        color: "#0B7A75",
+                        fontSize: "3em",
+                      }}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <FontAwesomeIcon
+                      icon="fa-solid fa-gamepad"
+                      size="10x"
+                      style={{ color: "#8bc6ef" }}
+                      onClick={handlePlayClick}
+                    />
+                  </>
+                )
+              ) : (
+                <div className="require-log">
+                  You need to be logged to interract with the game.{" "}
+                  <Link to="/log-in">
+                    <h4>Log in ?</h4>
+                  </Link>{" "}
+                </div>
               )}
             </i>
-            <h4 style={{ marginTop: "1rem" }}>Played it ?</h4>
           </div>
           <div style={{ textAlign: "center" }}>
             <i>
-              <FontAwesomeIcon
-                icon="fa-solid fa-heart"
-                size="10x"
-                style={{ color: heartColor }}
-                onClick={handleHeartClick}
-              />
-              {heartCheckVisible && (
-                <FontAwesomeIcon
-                  icon={faCheck}
-                  style={{
-                    position: "absolute",
-                    color: "#f44336",
-                    fontSize: "3em",
-                  }}
-                />
+              {canUse ? (
+                liked ? (
+                  <>
+                    <FontAwesomeIcon
+                      icon="fa-solid fa-heart"
+                      size="10x"
+                      style={{ color: "#f44336" }}
+                      onClick={handleDislike}
+                    />
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      style={{
+                        position: "absolute",
+                        color: "#f44336",
+                        fontSize: "3em",
+                      }}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <FontAwesomeIcon
+                      icon="fa-solid fa-heart"
+                      size="10x"
+                      style={{ color: "#8bc6ef" }}
+                      onClick={handleLikeClick}
+                    />
+                  </>
+                )
+              ) : (
+                <></>
               )}
             </i>
-            <h4 style={{ marginTop: "1rem" }}>Liked it ?</h4>
           </div>
           <div style={{ textAlign: "center" }}>
             <i>
-              <FontAwesomeIcon
-                icon="fa-solid fa-list-check"
-                size="10x"
-                style={{ color: listCheckColor }}
-                onClick={handleListCheckClick}
-              />
+              {canUse ? (
+                wished ? (
+                  <>
+                    <FontAwesomeIcon
+                      icon="fa-solid fa-list-check"
+                      size="10x"
+                      style={{ color: "#D7C9AA" }}
+                      onClick={handleDisWish}
+                    />
+                    <FontAwesomeIcon
+                      icon={faCheck}
+                      style={{
+                        position: "absolute",
+                        color: "#D7C9AA",
+                        fontSize: "3em",
+                      }}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <FontAwesomeIcon
+                      icon="fa-solid fa-list-check"
+                      size="10x"
+                      style={{ color: "#8bc6ef" }}
+                      onClick={handleWishClick}
+                    />
+                  </>
+                )
+              ) : (
+                <></>
+              )}
             </i>
-            {listCheckVisible && (
-              <FontAwesomeIcon
-                icon={faCheck}
-                style={{
-                  position: "absolute",
-
-                  color: "#D7C9AA",
-                  fontSize: "3em",
-                }}
-              />
-            )}
-            <h4 style={{ marginTop: "1rem" }}>Add to wishlist</h4>
-          </div>
-          <div style={{ textAlign: "center" }}>
-            <i>
-              <FontAwesomeIcon
-                icon="fa-solid fa-paper-plane"
-                size="10x"
-                style={{ color: paperPlaneColor }}
-                onClick={handlePaperPlaneClick}
-              />
-            </i>
-            {sendCheckVisible && (
-              <FontAwesomeIcon
-                icon={faCheck}
-                style={{
-                  position: "absolute",
-                  color: "#BB7E8C",
-                  fontSize: "3em",
-                }}
-              />
-            )}
-            <h4 style={{ marginTop: "1rem" }}>Send to a friend</h4>
           </div>
         </div>
       </div>
@@ -508,7 +617,6 @@ function GameDetails(props) {
               </td>
             </tr>
             <div className="divider"></div>
-
 
             <div className="divider"></div>
 

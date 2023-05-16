@@ -25,11 +25,13 @@ function UserProfile(props) {
     <div style={{ backgroundColor: "black" }}>
       <button onClick={handleDisconnect}>Disconnect</button>
       <NavBar user={props.user?.userName} />
-      {props.likedGames ? (
+      {(props.user && props.likedGames) ||
+      (props.user && props.playedGames) ||
+      (props.user && props.likedGames) ? (
         props.likedGames.length === 0 ? (
           <div className="empty-user-profile">
             <h1>
-              You haven't had any activity on this website yet. Checkout the{" "}
+              You don't like any game yet. Check out our{" "}
               <Link to="/game-list">
                 <span className="link-to-gamelist">Game List</span>
               </Link>{" "}
@@ -38,7 +40,7 @@ function UserProfile(props) {
           </div>
         ) : (
           <div className="GameList-video-game-page">
-            <h1>Your Liked Games</h1>
+            <h1>You've liked {props.likedGames.length} games !</h1>
             {props.likedGames.map((likedGame) => {
               const url = `/game-list/${likedGame.id}`;
               return (
@@ -80,6 +82,85 @@ function UserProfile(props) {
             </Link>
           </div>
         </div>
+      )}
+      {props.user && props.playedGames ? (
+        props.playedGames.length === 0 ? (
+          <div className="empty-user-profile">
+            <h1>
+              You haven't played any game yet ? That can't be true ! Notify it
+              in our{" "}
+              <Link to="/game-list">
+                <span className="link-to-gamelist">Game List</span>
+              </Link>{" "}
+              !
+            </h1>
+          </div>
+        ) : (
+          <div className="GameList-video-game-page">
+            <h1>You've played {props.playedGames.length} games !</h1>
+            {props.playedGames.map((playedGame) => {
+              const url = `/game-list/${playedGame.id}`;
+              return (
+                <Link
+                  key={playedGame.slug}
+                  to={url}
+                  target="_blank"
+                  className="GameList-video-game"
+                  style={{
+                    backgroundImage: `url(${playedGame.background_image})`,
+                  }}
+                >
+                  <div>
+                    <div className="GameList-video-game-name">
+                      {playedGame.name}
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        )
+      ) : (
+        <></>
+      )}
+      {props.user && props.wishedGames ? (
+        props.wishedGames.length === 0 ? (
+          <div className="empty-user-profile">
+            <h1>
+              You don't wish for any game? Then, you have to check out our{" "}
+              <Link to="/game-list">
+                <span className="link-to-gamelist">Game List</span>
+              </Link>{" "}
+              !
+            </h1>
+          </div>
+        ) : (
+          <div className="GameList-video-game-page">
+            <h1>You wish for {props.wishedGames.length} games !</h1>
+            {props.wishedGames.map((wishedGame) => {
+              const url = `/game-list/${wishedGame.id}`;
+              return (
+                <Link
+                  key={wishedGame.slug}
+                  to={url}
+                  target="_blank"
+                  className="GameList-video-game"
+                  style={{
+                    backgroundImage: `url(${wishedGame.background_image})`,
+                  }}
+                >
+                  <div>
+                    <div className="GameList-video-game-name">
+                      {wishedGame.name}
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        )
+      ) : (
+        <></>
       )}
     </div>
   );
