@@ -69,18 +69,27 @@ function GameDetails(props) {
     setSendCheckVisible(!sendCheckVisible);
   };
 
-  useEffect(() => {
-    if (props.user?.likedGames.includes(param.gameId)) {
-      setLiked(true);
-    }
-  }, [props.user]);
+
 
   useEffect(() => {
+
+    if (props.user && props.user.likedGames) {
+      props.user.likedGames.map((elem) => {
+        elem.id === parseInt(param.gameId) && setLiked(true);
+      });
+    }
+
     if (props.user) {
       console.log("FETCHING");
       setCanUse(true);
     }
   }, [props.user]);
+
+  // useEffect(() => {
+  //   if (props.user) {
+  //     setCanUse(true);
+  //   }
+  // }, [props.user]);
 
   const [stores, setStores] = useState(null);
   const [reddit, setReddit] = useState(null);
@@ -97,11 +106,6 @@ function GameDetails(props) {
       .catch((error) => {
         console.log(error);
       });
-  }, [param]);
-
-  // GET SCREENSHOTS OF THE GAME
-
-  useEffect(() => {
     axios
       .get(
         `https://api.rawg.io/api/games/${param.gameId}/screenshots?key=fa9c45d8169145c5a9d8796aa3e09890`
@@ -113,29 +117,17 @@ function GameDetails(props) {
       .catch((error) => {
         console.log(error);
       });
-  }, [param]);
-
-  // GET STORES SELLING THE GAME
-
-  useEffect(() => {
     axios
       .get(
         `https://api.rawg.io/api/games/${param.gameId}/stores?key=fa9c45d8169145c5a9d8796aa3e09890`
       )
       .then((response) => {
-        console.log("FETCHING");
-        console.log("STORES RESPONSE", response);
+
         setStores(response.data.results);
-        console.log("setStores", stores);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [param]);
-
-  // RECENTS REDDIT POSTS
-
-  useEffect(() => {
     axios
       .get(
         `https://api.rawg.io/api/games/${param.gameId}/reddit?id=&key=fa9c45d8169145c5a9d8796aa3e09890&page_size=100`
@@ -143,20 +135,12 @@ function GameDetails(props) {
       .then((response) => {
         console.log("FETCHING");
         setReddit(response.data.results);
-        console.log("REDDIT", reddit);
       })
       .catch((error) => {
         console.log(error);
       });
   }, [param]);
 
-  // COMMENT SECTION
-
-  // useEffect(() => {
-  //   axios.get()
-  // })
-
-  // RELATED GENRE AND TAGS
 
   useEffect(() => {
     if (game) {
@@ -206,16 +190,36 @@ function GameDetails(props) {
   async function handleLikeClick() {
     setLiked(true);
     const objectToPatch = {
-      likedGames: [...props.user.likedGames, param.gameId],
+      likedGames: [...props.user.likedGames, game],
     };
-    console.log("this is the props.likedgames");
     try {
       const response = await axios.patch(
         `https://ironrest.fly.dev/api/GameTrackR_UserData/${props.user._id}`,
         objectToPatch
       );
-      console.log(response);
-      console.log("FETCHING");
+      delete response.data.password;
+      props.setUser(response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handleDislike() {
+    setLiked(false);
+
+    const objectToPatch = {
+      likedGames: props.user.likedGames.filter((elem) => {
+        return elem.id !== parseInt(param.gameId);
+      }),
+    };
+
+    try {
+      const response = await axios.patch(
+        `https://ironrest.fly.dev/api/GameTrackR_UserData/${props.user._id}`,
+        objectToPatch
+      );
+
       delete response.data.password;
       props.setUser(response.data);
       localStorage.setItem("user", JSON.stringify(response.data));
@@ -476,7 +480,7 @@ function GameDetails(props) {
                   {stores.map((store) => {
                     return (
                       <a
-                        key={store.store_id}
+                        key={stores.id}
                         href={store.url}
                         target="_blank"
                         rel="noreferrer"
@@ -495,13 +499,25 @@ function GameDetails(props) {
             )}
 
             <div className="divider"></div>
+            <tr>
+              <td className="title">Genres</td>
+              <td className="genres">
+                {game.genres.map((elem) => {
+                  return <div key={game.description_raw}>{elem.name}</div>;
+                })}
+              </td>
+            </tr>
+            <div className="divider"></div>
+
+
+            <div className="divider"></div>
 
             <tr>
               <td className="title">Actions</td>
               <td className="like">
                 {canUse ? (
                   liked ? (
-                    <p>You like this game</p>
+                    <p onClick={handleDislike}>You like this game</p>
                   ) : (
                     <img
                       style={{ width: "3.5%" }}

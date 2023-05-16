@@ -126,6 +126,7 @@ function GameList(props) {
     event.preventDefault();
 
     getSearchedGame();
+    console.log("fetching search");
   }
 
   async function getSearchedGame(bool) {
