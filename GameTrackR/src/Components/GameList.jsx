@@ -55,12 +55,10 @@ function GameList(props) {
       !storesState
     ) {
       getSearchedGame(true);
-      console.log("fetch search scroll");
     }
   }, [currentPage]);
 
   useEffect(() => {
-    // console.log("fetchin", currentPage);
     if (
       !searchString &&
       !genresState &&
@@ -70,12 +68,10 @@ function GameList(props) {
       !storesState
     ) {
       fetchElements();
-      console.log("fetch neutral scroll");
     }
   }, [currentPage]);
 
   useEffect(() => {
-    // console.log("fetchin", currentPage);
     if (
       (!searchString && genresState) ||
       (!searchString && ratingsState) ||
@@ -84,7 +80,6 @@ function GameList(props) {
       (!searchString && storesState)
     ) {
       dropdownSearch(true);
-      console.log("fetch dropdown scroll");
     }
   }, [currentPage]);
 
@@ -126,7 +121,6 @@ function GameList(props) {
     event.preventDefault();
 
     getSearchedGame();
-    console.log("fetching search");
   }
 
   async function getSearchedGame(bool) {
@@ -139,7 +133,6 @@ function GameList(props) {
         return setAllGames((current) => [...current, ...response.data.results]);
       }
       setAllGames((current) => response.data.results);
-      console.log("SEARCHING: ", response.data.results);
     } catch (error) {
       console.log(error);
     }
@@ -264,7 +257,6 @@ function GameList(props) {
       filterString += tagsStateCode;
     }
     let url = `https://api.rawg.io/api/games?key=fa9c45d8169145c5a9d8796aa3e09890&page=${currentPage}${filterString}&page_size=40`;
-    console.log("this is the url", url);
     try {
       if (!allGames.length) return;
       const response = await axios.get(url);
@@ -289,7 +281,6 @@ function GameList(props) {
       tagsState
     ) {
       dropdownSearch();
-      console.log("fetching dropdown filter change");
     }
   }, [platformsState, storesState, ratingsState, genresState, tagsState]);
 
