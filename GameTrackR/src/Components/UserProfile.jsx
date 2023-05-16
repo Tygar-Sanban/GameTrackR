@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import NavBar from "./NavBar";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Carousel, { CarouselItem } from "./Carousel.jsx";
 
 function UserProfile(props) {
   const navigate = useNavigate();
@@ -39,28 +40,41 @@ function UserProfile(props) {
             </h1>
           </div>
         ) : (
-          <div className="GameList-video-game-page">
-            <h1>You've liked {props.likedGames.length} games !</h1>
-            {props.likedGames.map((likedGame) => {
-              const url = `/game-list/${likedGame.id}`;
-              return (
-                <Link
-                  key={likedGame.slug}
-                  to={url}
-                  target="_blank"
-                  className="GameList-video-game"
-                  style={{
-                    backgroundImage: `url(${likedGame.background_image})`,
-                  }}
-                >
-                  <div>
-                    <div className="GameList-video-game-name">
-                      {likedGame.name}
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
+          <div>
+            {" "}
+            <h1
+              style={{
+                backgroundColor: "rgb(48, 48, 48)",
+                color: "white",
+                textAlign: "center",
+              }}
+            >
+              You've liked {props.likedGames.length} games !
+            </h1>
+            <Carousel>
+              {props.likedGames.map((likedGame) => {
+                const url = `/game-list/${likedGame.id}`;
+                return (
+                  <CarouselItem key={likedGame.id} className="carousel-item">
+                    <Link
+                      key={likedGame.slug}
+                      to={url}
+                      target="_blank"
+                      className="carousel-image"
+                    >
+                      <div
+                        className="carousel-image"
+                        style={{
+                          backgroundImage: `url(${likedGame.background_image})`,
+                        }}
+                      >
+                        <p>{likedGame.name}</p>
+                      </div>
+                    </Link>
+                  </CarouselItem>
+                );
+              })}
+            </Carousel>
           </div>
         )
       ) : (
@@ -96,28 +110,40 @@ function UserProfile(props) {
             </h1>
           </div>
         ) : (
-          <div className="GameList-video-game-page">
-            <h1>You've played {props.playedGames.length} games !</h1>
-            {props.playedGames.map((playedGame) => {
-              const url = `/game-list/${playedGame.id}`;
-              return (
-                <Link
-                  key={playedGame.slug}
-                  to={url}
-                  target="_blank"
-                  className="GameList-video-game"
-                  style={{
-                    backgroundImage: `url(${playedGame.background_image})`,
-                  }}
-                >
-                  <div>
-                    <div className="GameList-video-game-name">
-                      {playedGame.name}
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
+          <div>
+            <h1
+              style={{
+                backgroundColor: "rgb(48, 48, 48)",
+                color: "white",
+                textAlign: "center",
+              }}
+            >
+              You've played {props.playedGames.length} games !
+            </h1>
+            <Carousel>
+              {props.playedGames.map((playedGame) => {
+                const url = `/game-list/${playedGame.id}`;
+                return (
+                  <CarouselItem key={playedGame.id} className="carousel-item">
+                    <Link
+                      key={playedGame.slug}
+                      to={url}
+                      target="_blank"
+                      className="carousel-image"
+                    >
+                      <div
+                        className="carousel-image"
+                        style={{
+                          backgroundImage: `url(${playedGame.background_image})`,
+                        }}
+                      >
+                        <p>{playedGame.name}</p>
+                      </div>
+                    </Link>
+                  </CarouselItem>
+                );
+              })}
+            </Carousel>
           </div>
         )
       ) : (
@@ -135,29 +161,32 @@ function UserProfile(props) {
             </h1>
           </div>
         ) : (
-          <div className="GameList-video-game-page">
+          <Carousel>
             <h1>You wish for {props.wishedGames.length} games !</h1>
+
             {props.wishedGames.map((wishedGame) => {
               const url = `/game-list/${wishedGame.id}`;
               return (
-                <Link
-                  key={wishedGame.slug}
-                  to={url}
-                  target="_blank"
-                  className="GameList-video-game"
-                  style={{
-                    backgroundImage: `url(${wishedGame.background_image})`,
-                  }}
-                >
-                  <div>
-                    <div className="GameList-video-game-name">
-                      {wishedGame.name}
+                <CarouselItem key={wishedGame.id} className="carousel-item">
+                  <Link
+                    key={wishedGame.slug}
+                    to={url}
+                    target="_blank"
+                    className="carousel-image"
+                  >
+                    <div
+                      className="carousel-image"
+                      style={{
+                        backgroundImage: `url(${wishedGame.background_image})`,
+                      }}
+                    >
+                      <p>{wishedGame.name}</p>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </CarouselItem>
               );
             })}
-          </div>
+          </Carousel>
         )
       ) : (
         <></>
