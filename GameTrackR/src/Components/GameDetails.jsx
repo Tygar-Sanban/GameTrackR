@@ -12,10 +12,13 @@ import linuxLogo from "../../public/assets/Images/linuxLogo.png";
 import gogLogo from "../../public/assets/Images/gogLogo.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faGamepad } from "@fortawesome/free-solid-svg-icons";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { faListCheck } from "@fortawesome/free-solid-svg-icons";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import {
+  faGamepad,
+  faHeart,
+  faListCheck,
+  faPaperPlane,
+  faCheck,
+} from "@fortawesome/free-solid-svg-icons";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 library.add(faHeart);
 library.add(faListCheck);
@@ -37,13 +40,47 @@ function GameDetails(props) {
   //   setLiked(true);
   // }
 
+  const [gamepadColor, setGamepadColor] = useState("#8bc6ef");
+  const [heartColor, setHeartColor] = useState("#8bc6ef");
+  const [listCheckColor, setListCheckColor] = useState("#8bc6ef");
+  const [paperPlaneColor, setPaperPlaneColor] = useState("#8bc6ef");
+  const [gamepadCheckVisible, setGamepadCheckVisible] = useState(false);
+  const [heartCheckVisible, setHeartCheckVisible] = useState(false);
+  const [listCheckVisible, setListCheckVisible] = useState(false);
+  const [sendCheckVisible, setSendCheckVisible] = useState(false);
+
+  const handleGamepadClick = () => {
+    setGamepadColor(gamepadColor === "#8bc6ef" ? "#0B7A75" : "#8bc6ef");
+    setGamepadCheckVisible(!gamepadCheckVisible);
+  };
+
+  const handleHeartClick = () => {
+    setHeartColor(heartColor === "#8bc6ef" ? "#f44336" : "#8bc6ef");
+    setHeartCheckVisible(!heartCheckVisible);
+  };
+
+  const handleListCheckClick = () => {
+    setListCheckColor(listCheckColor === "#8bc6ef" ? "#D7C9AA" : "#8bc6ef");
+    setListCheckVisible(!listCheckVisible);
+  };
+
+  const handlePaperPlaneClick = () => {
+    setPaperPlaneColor(paperPlaneColor === "#8bc6ef" ? "#BB7E8C" : "#8bc6ef");
+    setSendCheckVisible(!sendCheckVisible);
+  };
+
+
+
   useEffect(() => {
+
     if (props.user && props.user.likedGames) {
       props.user.likedGames.map((elem) => {
         elem.id === parseInt(param.gameId) && setLiked(true);
       });
     }
+
     if (props.user) {
+      console.log("FETCHING");
       setCanUse(true);
     }
   }, [props.user]);
@@ -63,6 +100,7 @@ function GameDetails(props) {
         `https://api.rawg.io/api/games/${param.gameId}?key=fa9c45d8169145c5a9d8796aa3e09890`
       )
       .then((response) => {
+        console.log("FECHING");
         setGame(response.data);
       })
       .catch((error) => {
@@ -73,6 +111,7 @@ function GameDetails(props) {
         `https://api.rawg.io/api/games/${param.gameId}/screenshots?key=fa9c45d8169145c5a9d8796aa3e09890`
       )
       .then((response) => {
+        console.log("FETCHING");
         setScreenshots(response.data.results);
       })
       .catch((error) => {
@@ -83,6 +122,7 @@ function GameDetails(props) {
         `https://api.rawg.io/api/games/${param.gameId}/stores?key=fa9c45d8169145c5a9d8796aa3e09890`
       )
       .then((response) => {
+
         setStores(response.data.results);
       })
       .catch((error) => {
@@ -93,12 +133,14 @@ function GameDetails(props) {
         `https://api.rawg.io/api/games/${param.gameId}/reddit?id=&key=fa9c45d8169145c5a9d8796aa3e09890&page_size=100`
       )
       .then((response) => {
+        console.log("FETCHING");
         setReddit(response.data.results);
       })
       .catch((error) => {
         console.log(error);
       });
   }, [param]);
+
 
   useEffect(() => {
     if (game) {
@@ -136,6 +178,7 @@ function GameDetails(props) {
           `https://api.rawg.io/api/games?key=fa9c45d8169145c5a9d8796aa3e09890${oneGameGenre[0]}${oneGameGenre[1]}${topTagsName[0]}${topTagsName[1]}${topTagsName[2]}`
         )
         .then((response) => {
+          console.log("FETCHING");
           setRelatedGenre(response.data.results);
         })
         .catch((error) => {
@@ -176,6 +219,7 @@ function GameDetails(props) {
         `https://ironrest.fly.dev/api/GameTrackR_UserData/${props.user._id}`,
         objectToPatch
       );
+
       delete response.data.password;
       props.setUser(response.data);
       localStorage.setItem("user", JSON.stringify(response.data));
@@ -198,7 +242,36 @@ function GameDetails(props) {
     1: "/assets/Images/steamLogo.png",
     2: "/assets/Images/microsoftLogo.png",
     6: "/assets/Images/nintendoShopLogo.svg",
+    7: "/assets/Images/xboxMarketPlaceLogo.png",
+    11: "/assets/Images/epicLogo.png",
+    4: "/assets/Images/apple-logo.png",
+    8: "/assets/Images/googlePlayLogo.png",
   };
+
+  // POST COMMENTS
+  const [pseudonyme, setPseudonyme] = useState("");
+  const [commentary, setCommentary] = useState("");
+
+  async function handleSubmitComment(event) {
+    event.preventDefault();
+    const objectToPost = {
+      gameId: game.id,
+      pseudonyme,
+      commentary,
+    };
+
+    try {
+      const response = await axios.post(
+        "https://ironrest.fly.dev/api/GameTrackR_Commentaries",
+        objectToPost
+      );
+      props.fetchComments();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  //
 
   if (!game) {
     return <div>Loading...</div>;
@@ -213,7 +286,98 @@ function GameDetails(props) {
         ></div>
         <h1>{game.name}</h1>
       </div>
+      <div className="title">Your rating</div>
+      <div className="title">Icons Player state</div>
 
+      <div>
+        <div className="iconContainer">
+          <div style={{ textAlign: "center" }}>
+            <i>
+              <FontAwesomeIcon
+                icon="fa-solid fa-gamepad"
+                size="10x"
+                style={{ color: gamepadColor }}
+                onClick={handleGamepadClick}
+              />
+              {gamepadCheckVisible && (
+                <FontAwesomeIcon
+                  icon={faCheck}
+                  style={{
+                    position: "absolute",
+                    color: "#0B7A75",
+                    fontSize: "3em",
+                  }}
+                />
+              )}
+            </i>
+            <h4 style={{ marginTop: "1rem" }}>Played it ?</h4>
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <i>
+              <FontAwesomeIcon
+                icon="fa-solid fa-heart"
+                size="10x"
+                style={{ color: heartColor }}
+                onClick={handleHeartClick}
+              />
+              {heartCheckVisible && (
+                <FontAwesomeIcon
+                  icon={faCheck}
+                  style={{
+                    position: "absolute",
+                    color: "#f44336",
+                    fontSize: "3em",
+                  }}
+                />
+              )}
+            </i>
+            <h4 style={{ marginTop: "1rem" }}>Liked it ?</h4>
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <i>
+              <FontAwesomeIcon
+                icon="fa-solid fa-list-check"
+                size="10x"
+                style={{ color: listCheckColor }}
+                onClick={handleListCheckClick}
+              />
+            </i>
+            {listCheckVisible && (
+              <FontAwesomeIcon
+                icon={faCheck}
+                style={{
+                  position: "absolute",
+
+                  color: "#D7C9AA",
+                  fontSize: "3em",
+                }}
+              />
+            )}
+            <h4 style={{ marginTop: "1rem" }}>Add to wishlist</h4>
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <i>
+              <FontAwesomeIcon
+                icon="fa-solid fa-paper-plane"
+                size="10x"
+                style={{ color: paperPlaneColor }}
+                onClick={handlePaperPlaneClick}
+              />
+            </i>
+            {sendCheckVisible && (
+              <FontAwesomeIcon
+                icon={faCheck}
+                style={{
+                  position: "absolute",
+                  color: "#BB7E8C",
+                  fontSize: "3em",
+                }}
+              />
+            )}
+            <h4 style={{ marginTop: "1rem" }}>Send to a friend</h4>
+          </div>
+        </div>
+      </div>
       <div className="detailsTable">
         <table>
           <thead></thead>
@@ -240,53 +404,52 @@ function GameDetails(props) {
             </tr>
             <div className="divider"></div>
             <tr>
-              <td className="title">Icons Player state</td>
-
+              <td className="title">screenshots</td>
               <td>
-                <div className="iconContainer">
-                  <div style={{ textAlign: "center" }}>
-                    <i>
-                      <FontAwesomeIcon
-                        icon="fa-solid fa-gamepad"
-                        size="10x"
-                        style={{ color: "#8bc6ef" }}
-                      />
-                    </i>
-                    <h4 style={{ marginTop: "1rem" }}>Played it ?</h4>
-                  </div>
-                  <div style={{ textAlign: "center" }}>
-                    <i>
-                      <FontAwesomeIcon
-                        icon="fa-solid fa-heart"
-                        size="10x"
-                        style={{ color: "#8bc6ef" }}
-                      />
-                    </i>
-                    <h4 style={{ marginTop: "1rem" }}>Liked it ?</h4>
-                  </div>
-                  <div style={{ textAlign: "center" }}>
-                    <i>
-                      <FontAwesomeIcon
-                        icon="fa-solid fa-list-check"
-                        size="10x"
-                        style={{ color: "#8bc6ef" }}
-                      />
-                    </i>
-                    <h4 style={{ marginTop: "1rem" }}>Add to wishlist</h4>
-                  </div>
-                  <div style={{ textAlign: "center" }}>
-                    <i>
-                      <FontAwesomeIcon
-                        icon="fa-solid fa-paper-plane"
-                        size="10x"
-                        style={{ color: "#8bc6ef" }}
-                      />
-                    </i>
-                    <h4 style={{ marginTop: "1rem" }}>Send to a friend</h4>
-                  </div>
+                <div className="screenshot-container">
+                  {screenshots &&
+                    screenshots.map((elem) => {
+                      return (
+                        <div
+                          key={elem.id}
+                          className="screenshot-image"
+                          style={{
+                            cursor: "pointer",
+                            backgroundImage: `url(${elem.image})`,
+                            // width: large ? "800px" : "10rem",
+                            // height: large ? "20rem" : "10rem",
+                          }}
+                        />
+                      );
+                    })}
                 </div>
               </td>
             </tr>
+            <div className="divider"></div>
+            <tr>
+              <td className="title">Description :</td>
+              <td>{game.description_raw}</td>
+            </tr>
+            <div className="divider"></div>
+            <tr>
+              <td className="title">Genres</td>
+              <td className="genres">
+                {game.genres.map((elem) => {
+                  return <div key={game.id}>{elem.name}</div>;
+                })}
+              </td>
+            </tr>
+
+            <tr>
+              <td className="title">Tags :</td>
+              <td key={game.tags.id}>
+                {game.tags.map((tag) => {
+                  return `${tag.slug} / `;
+                })}
+              </td>
+            </tr>
+            <div className="divider"></div>
+            <tr></tr>
             <div className="divider"></div>
             <tr>
               <td className="title" style={{ width: "30%" }}>
@@ -334,6 +497,7 @@ function GameDetails(props) {
                 </td>
               </tr>
             )}
+
             <div className="divider"></div>
             <tr>
               <td className="title">Genres</td>
@@ -345,43 +509,7 @@ function GameDetails(props) {
             </tr>
             <div className="divider"></div>
 
-            <div className="divider"></div>
-            <tr>
-              <td className="title">screenshots</td>
-              <td>
-                <div className="screenshot-container">
-                  {screenshots &&
-                    screenshots.map((elem) => {
-                      return (
-                        <div
-                          key={elem.id}
-                          className="screenshot-image"
-                          style={{
-                            cursor: "pointer",
-                            backgroundImage: `url(${elem.image})`,
-                            // width: large ? "800px" : "10rem",
-                            // height: large ? "20rem" : "10rem",
-                          }}
-                        />
-                      );
-                    })}
-                  {/* <button onClick={toggleSize}>Larger pictures</button> */}
-                </div>
-              </td>
-            </tr>
-            <div className="divider"></div>
-            <tr>
-              <td className="title">Description :</td>
-              <td>{game.description_raw}</td>
-            </tr>
-            <tr>
-              <td className="title">Tags :</td>
-              <td key={game.tags.id}>
-                {game.tags.map((tag) => {
-                  return `${tag.slug} / `;
-                })}
-              </td>
-            </tr>
+
             <div className="divider"></div>
 
             <tr>
@@ -436,39 +564,84 @@ function GameDetails(props) {
       </Carousel>
 
       {reddit && (
-        <div className="detailsTable">
+        <>
           <div className="redditTitleDiv">Recent Reddit Posts</div>
-          <div className="redditContainer" key={reddit.id}>
-            {reddit
-              .filter((post) => post.image)
-              .map((post) => {
-                return (
-                  <>
-                    <div className="redditPost">
-                      <p className="redditUsername">Username {post.username}</p>
+          <div className="reddit-comment-container">
+            <div className="redditContainer" key={reddit.id}>
+              {reddit
+                .filter((post) => post.image)
+                .map((post) => {
+                  return (
+                    <>
+                      <div className="redditPost">
+                        <p className="redditUsername">
+                          Username {post.username}
+                        </p>
 
-                      <p className="redditTitle">{post.name}</p>
-                      <img
-                        className="redditImg"
-                        src={post.image}
-                        alt="redditImg"
-                      />
-                      {/* <aside>{post.text}</aside> */}
-                      <a
-                        key={post.id}
-                        href={post.url}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <p className="redditUsername">Link to Reddit post</p>
-                        <p className="redditUrl">{post.url}</p>
-                      </a>
-                    </div>
-                  </>
-                );
-              })}
+                        <p className="redditTitle">{post.name}</p>
+                        <img
+                          className="redditImg"
+                          src={post.image}
+                          alt="redditImg"
+                        />
+                        {/* <aside>{post.text}</aside> */}
+                        <a
+                          key={post.id}
+                          href={post.url}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <p className="redditUsername">Link to Reddit post</p>
+                          <p className="redditUrl">{post.url}</p>
+                        </a>
+                      </div>
+                    </>
+                  );
+                })}
+            </div>
+
+            <div className="comment-section">
+              <form onSubmit={handleSubmitComment}>
+                <label htmlFor="comment">Comment :</label>
+                <input
+                  type="text"
+                  value={commentary}
+                  onChange={(event) => {
+                    event.preventDefault();
+                    setCommentary(event.target.value);
+                  }}
+                />
+                <label htmlFor="pseudo">Enter your pseudonyme :</label>
+                <input
+                  type="text"
+                  value={pseudonyme}
+                  onChange={(event) => {
+                    event.preventDefault();
+                    setPseudonyme(event.target.value);
+                  }}
+                />
+                <button>
+                  <h4>Comment on this game !</h4>
+                </button>
+              </form>
+              <div className="comment-div">
+                {props.commentaryDisplay.map((elem) => {
+                  return (
+                    elem.gameId === parseInt(param.gameId) && (
+                      <div key={elem._id}>
+                        <p className="pseudonyme">
+                          Username: {elem.pseudonyme}
+                        </p>
+
+                        <p className="commentary">{elem.commentary}</p>
+                      </div>
+                    )
+                  );
+                })}
+              </div>
+            </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );

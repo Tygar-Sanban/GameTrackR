@@ -18,8 +18,11 @@ function App() {
   const [playedGames, setPlayedGames] = useState([]);
   const [wishedGames, setWishedGames] = useState([]);
   const [allProfiles, setAllProfiles] = useState([]);
-  console.log("+++++++++++++++++", location.pathname);
 
+  
+  const [commentaryDisplay, setCommentaryDisplay] = useState([]);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  
   async function getAllProfiles() {
     try {
       const response = await axios.get(
@@ -53,6 +56,21 @@ function App() {
     }
   }, []);
 
+  function fetchComments() {
+    axios
+      .get(`https://ironrest.fly.dev/api/GameTrackR_Commentaries`)
+      .then((response) => {
+        console.log("responses ironrest", response);
+        setCommentaryDisplay(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  useEffect(() => {
+    fetchComments();
+  }, [location]);
+
   return (
     <>
       <Routes>
@@ -84,11 +102,16 @@ function App() {
           path="/game-list/:gameId"
           element={
             <GameDetails
+              formSubmitted={formSubmitted}
+              setFormSubmitted={setFormSubmitted}
+              commentaryDisplay={commentaryDisplay}
+              setCommentaryDisplay={setCommentaryDisplay}
               user={user}
               setUser={setUser}
               likedGames={likedGames}
               allProfiles={allProfiles}
               setAllProfiles={setAllProfiles}
+              fetchComments={fetchComments}
             />
           }
         />
