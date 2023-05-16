@@ -5,7 +5,9 @@ import axios from "axios";
 
 import RealNavBar from "./RealNavBar";
 
-import Carousel, { CarouselItem } from "./Carousel.jsx";
+
+import CarouselUser, { CarouselItemUser } from "./CarouselUser.jsx";
+
 
 function UserProfile(props) {
   const navigate = useNavigate();
@@ -54,11 +56,14 @@ function UserProfile(props) {
             >
               You've liked {props.likedGames.length} games !
             </h1>
-            <Carousel>
+            <CarouselUser>
               {props.likedGames.map((likedGame) => {
                 const url = `/game-list/${likedGame.id}`;
                 return (
-                  <CarouselItem key={likedGame.id} className="carousel-item">
+                  <CarouselItemUser
+                    key={likedGame.id}
+                    className="carousel-item-user"
+                  >
                     <Link
                       key={likedGame.slug}
                       to={url}
@@ -74,10 +79,10 @@ function UserProfile(props) {
                         <p>{likedGame.name}</p>
                       </div>
                     </Link>
-                  </CarouselItem>
+                  </CarouselItemUser>
                 );
               })}
-            </Carousel>
+            </CarouselUser>
           </div>
         )
       ) : (
@@ -123,11 +128,14 @@ function UserProfile(props) {
             >
               You've played {props.playedGames.length} games !
             </h1>
-            <Carousel>
+            <CarouselUser>
               {props.playedGames.map((playedGame) => {
                 const url = `/game-list/${playedGame.id}`;
                 return (
-                  <CarouselItem key={playedGame.id} className="carousel-item">
+                  <CarouselItemUser
+                    key={playedGame.id}
+                    className="carousel-item-user"
+                  >
                     <Link
                       key={playedGame.slug}
                       to={url}
@@ -143,10 +151,10 @@ function UserProfile(props) {
                         <p>{playedGame.name}</p>
                       </div>
                     </Link>
-                  </CarouselItem>
+                  </CarouselItemUser>
                 );
               })}
-            </Carousel>
+            </CarouselUser>
           </div>
         )
       ) : (
@@ -164,13 +172,13 @@ function UserProfile(props) {
             </h1>
           </div>
         ) : (
-          <Carousel>
+          <CarouselUser>
             <h1>You wish for {props.wishedGames.length} games !</h1>
 
             {props.wishedGames.map((wishedGame) => {
               const url = `/game-list/${wishedGame.id}`;
               return (
-                <CarouselItem key={wishedGame.id} className="carousel-item">
+                <CarouselItemUser key={wishedGame.id} className="carousel-item">
                   <Link
                     key={wishedGame.slug}
                     to={url}
@@ -186,10 +194,10 @@ function UserProfile(props) {
                       <p>{wishedGame.name}</p>
                     </div>
                   </Link>
-                </CarouselItem>
+                </CarouselItemUser>
               );
             })}
-          </Carousel>
+          </CarouselUser>
         )
       ) : (
         <></>

@@ -372,127 +372,133 @@ function GameDetails(props) {
         ></div>
         <h1>{game.name}</h1>
       </div>
-      <div className="title">Your rating</div>
-      <div className="title">Icons Player state</div>
 
-      <div>
-        <div className="iconContainer">
-          <div style={{ textAlign: "center" }}>
-            <i>
-              {canUse ? (
-                played ? (
-                  <>
-                    <FontAwesomeIcon
-                      icon="fa-solid fa-gamepad"
-                      size="10x"
-                      style={{ color: "#0B7A75" }}
-                      onClick={handleDisPlay}
-                    />
-                    <FontAwesomeIcon
-                      icon={faCheck}
-                      style={{
-                        position: "absolute",
-                        color: "#0B7A75",
-                        fontSize: "3em",
-                      }}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <FontAwesomeIcon
-                      icon="fa-solid fa-gamepad"
-                      size="10x"
-                      style={{ color: "#8bc6ef" }}
-                      onClick={handlePlayClick}
-                    />
-                  </>
-                )
-              ) : (
-                <div className="require-log">
-                  You need to be logged to interract with the game.{" "}
-                  <Link to="/log-in">
-                    <h4>Log in ?</h4>
-                  </Link>{" "}
-                </div>
-              )}
-            </i>
-          </div>
-          <div style={{ textAlign: "center" }}>
-            <i>
-              {canUse ? (
-                liked ? (
-                  <>
-                    <FontAwesomeIcon
-                      icon="fa-solid fa-heart"
-                      size="10x"
-                      style={{ color: "#f44336" }}
-                      onClick={handleDislike}
-                    />
-                    <FontAwesomeIcon
-                      icon={faCheck}
-                      style={{
-                        position: "absolute",
-                        color: "#f44336",
-                        fontSize: "3em",
-                      }}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <FontAwesomeIcon
-                      icon="fa-solid fa-heart"
-                      size="10x"
-                      style={{ color: "#8bc6ef" }}
-                      onClick={handleLikeClick}
-                    />
-                  </>
-                )
-              ) : (
-                <></>
-              )}
-            </i>
-          </div>
-          <div style={{ textAlign: "center" }}>
-            <i>
-              {canUse ? (
-                wished ? (
-                  <>
-                    <FontAwesomeIcon
-                      icon="fa-solid fa-list-check"
-                      size="10x"
-                      style={{ color: "#D7C9AA" }}
-                      onClick={handleDisWish}
-                    />
-                    <FontAwesomeIcon
-                      icon={faCheck}
-                      style={{
-                        position: "absolute",
-                        color: "#D7C9AA",
-                        fontSize: "3em",
-                      }}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <FontAwesomeIcon
-                      icon="fa-solid fa-list-check"
-                      size="10x"
-                      style={{ color: "#8bc6ef" }}
-                      onClick={handleWishClick}
-                    />
-                  </>
-                )
-              ) : (
-                <></>
-              )}
-            </i>
-          </div>
-        </div>
-      </div>
       <div className="detailsTable">
         <table>
           <thead></thead>
           <tbody>
+            <tr>
+              <td className="title">
+                Click the icons to set a status for your game
+              </td>
+              <td>
+                <div>
+                  <div className="iconContainer">
+                    <div style={{ textAlign: "center" }}>
+                      <i>
+                        {canUse ? (
+                          played ? (
+                            <>
+                              <FontAwesomeIcon
+                                icon="fa-solid fa-gamepad"
+                                size="10x"
+                                style={{ color: "#0B7A75", width: "50%" }}
+                                onClick={handleDisPlay}
+                              />
+                              <FontAwesomeIcon
+                                icon={faCheck}
+                                style={{
+                                  position: "absolute",
+                                  color: "#0B7A75",
+                                  fontSize: "3em",
+                                }}
+                              />
+                            </>
+                          ) : (
+                            <>
+                              <FontAwesomeIcon
+                                icon="fa-solid fa-gamepad"
+                                size="10x"
+                                style={{ color: "#8bc6ef", width: "50%" }}
+                                onClick={handlePlayClick}
+                              />
+                            </>
+                          )
+                        ) : (
+                          <div className="require-log">
+                            You need to be logged to interract with the game.{" "}
+                            <Link to="/log-in">
+                              <h4>Log in ?</h4>
+                            </Link>{" "}
+                          </div>
+                        )}
+                      </i>
+                    </div>
+                    <div style={{ textAlign: "center" }}>
+                      <i>
+                        {canUse ? (
+                          liked ? (
+                            <>
+                              <FontAwesomeIcon
+                                icon="fa-solid fa-heart"
+                                size="10x"
+                                style={{ color: "#f44336", width: "50%" }}
+                                onClick={handleDislike}
+                              />
+                              <FontAwesomeIcon
+                                icon={faCheck}
+                                style={{
+                                  position: "absolute",
+                                  color: "#f44336",
+                                  fontSize: "3em",
+                                }}
+                              />
+                            </>
+                          ) : (
+                            <>
+                              <FontAwesomeIcon
+                                icon="fa-solid fa-heart"
+                                size="10x"
+                                style={{ color: "#8bc6ef", width: "50%" }}
+                                onClick={handleLikeClick}
+                              />
+                            </>
+                          )
+                        ) : (
+                          <></>
+                        )}
+                      </i>
+                    </div>
+                    <div style={{ textAlign: "center" }}>
+                      <i>
+                        {canUse ? (
+                          wished ? (
+                            <>
+                              <FontAwesomeIcon
+                                icon="fa-solid fa-list-check"
+                                size="10x"
+                                style={{ color: "#D7C9AA", width: "50%" }}
+                                onClick={handleDisWish}
+                              />
+                              <FontAwesomeIcon
+                                icon={faCheck}
+                                style={{
+                                  position: "absolute",
+                                  color: "#D7C9AA",
+                                  fontSize: "3em",
+                                }}
+                              />
+                            </>
+                          ) : (
+                            <>
+                              <FontAwesomeIcon
+                                icon="fa-solid fa-list-check"
+                                size="10x"
+                                style={{ color: "#8bc6ef", width: "50%" }}
+                                onClick={handleWishClick}
+                              />
+                            </>
+                          )
+                        ) : (
+                          <></>
+                        )}
+                      </i>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <div className="divider"></div>
             <tr>
               <td className="title">Rating</td>
               <td className="progress-bar">
@@ -539,7 +545,7 @@ function GameDetails(props) {
             <div className="divider"></div>
             <tr>
               <td className="title">Description :</td>
-              <td>{game.description_raw}</td>
+              <td className="content">{game.description_raw}</td>
             </tr>
             <div className="divider"></div>
             <tr>
@@ -553,7 +559,7 @@ function GameDetails(props) {
 
             <tr>
               <td className="title">Tags :</td>
-              <td key={game.tags.id}>
+              <td className="content" key={game.tags.id}>
                 {game.tags.map((tag) => {
                   return `${tag.slug} / `;
                 })}
@@ -561,7 +567,7 @@ function GameDetails(props) {
             </tr>
             <div className="divider"></div>
             <tr></tr>
-            <div className="divider"></div>
+
             <tr>
               <td className="title" style={{ width: "30%" }}>
                 Released on :
@@ -608,17 +614,6 @@ function GameDetails(props) {
                 </td>
               </tr>
             )}
-
-            <div className="divider"></div>
-            <tr>
-              <td className="title">Genres</td>
-              <td className="genres">
-                {game.genres.map((elem) => {
-                  return <div key={game.description_raw}>{elem.name}</div>;
-                })}
-              </td>
-            </tr>
-            <div className="divider"></div>
 
             <div className="divider"></div>
 
@@ -675,7 +670,7 @@ function GameDetails(props) {
 
       {reddit && (
         <>
-          <div className="redditTitleDiv">Recent Reddit Posts</div>
+          <div className="redditTitleDiv">COMMUNITY</div>
           <div className="reddit-comment-container">
             <div className="redditContainer" key={reddit.id}>
               {reddit
@@ -713,7 +708,7 @@ function GameDetails(props) {
             <div className="comment-section">
               <form onSubmit={handleSubmitComment}>
                 <label htmlFor="comment">Comment :</label>
-                <input
+                <textarea
                   type="text"
                   value={commentary}
                   onChange={(event) => {
@@ -722,7 +717,7 @@ function GameDetails(props) {
                   }}
                 />
                 <label htmlFor="pseudo">Enter your pseudonyme :</label>
-                <input
+                <textarea
                   type="text"
                   value={pseudonyme}
                   onChange={(event) => {
@@ -730,8 +725,8 @@ function GameDetails(props) {
                     setPseudonyme(event.target.value);
                   }}
                 />
-                <button>
-                  <h4>Comment on this game !</h4>
+                <button className="btn-topdown">
+                  <h4>Comment</h4>
                 </button>
               </form>
               <div className="comment-div">

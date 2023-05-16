@@ -43,6 +43,7 @@ const Carousel = ({ children }) => {
       </div>
       <div className="indicators">
         <button
+          className="btn-topdown"
           onClick={() => {
             updateIndex(activeIndex - 1);
           }}
@@ -51,6 +52,7 @@ const Carousel = ({ children }) => {
         </button>
 
         <button
+          className="btn-topdown"
           onClick={() => {
             updateIndex(activeIndex + 1);
           }}
