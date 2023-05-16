@@ -5,7 +5,6 @@ import axios from "axios";
 
 function UserProfile(props) {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -26,7 +25,7 @@ function UserProfile(props) {
     <div style={{ backgroundColor: "black" }}>
       <button onClick={handleDisconnect}>Disconnect</button>
       <NavBar user={props.user?.userName} />
-      {props.user ? (
+      {props.likedGames ? (
         props.likedGames.length === 0 ? (
           <div className="empty-user-profile">
             <h1>

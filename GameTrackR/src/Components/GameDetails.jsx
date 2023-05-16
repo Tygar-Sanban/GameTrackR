@@ -38,8 +38,10 @@ function GameDetails(props) {
   // }
 
   useEffect(() => {
-    if (props.user?.likedGames.includes(param.gameId)) {
-      setLiked(true);
+    if (props.user && props.user.likedGames) {
+      props.user.likedGames.map((elem) => {
+        elem.id === parseInt(param.gameId) && setLiked(true);
+      });
     }
     if (props.user) {
       setCanUse(true);
@@ -143,11 +145,32 @@ function GameDetails(props) {
   }, [game]);
 
   async function handleLikeClick() {
-    console.log("----------liking game");
     setLiked(true);
     const objectToPatch = {
       likedGames: [...props.user.likedGames, game],
     };
+    try {
+      const response = await axios.patch(
+        `https://ironrest.fly.dev/api/GameTrackR_UserData/${props.user._id}`,
+        objectToPatch
+      );
+      delete response.data.password;
+      props.setUser(response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handleDislike() {
+    setLiked(false);
+
+    const objectToPatch = {
+      likedGames: props.user.likedGames.filter((elem) => {
+        return elem.id !== parseInt(param.gameId);
+      }),
+    };
+
     try {
       const response = await axios.patch(
         `https://ironrest.fly.dev/api/GameTrackR_UserData/${props.user._id}`,
@@ -294,7 +317,7 @@ function GameDetails(props) {
                   {stores.map((store) => {
                     return (
                       <a
-                        key={store.store_id}
+                        key={stores.id}
                         href={store.url}
                         target="_blank"
                         rel="noreferrer"
@@ -366,7 +389,7 @@ function GameDetails(props) {
               <td className="like">
                 {canUse ? (
                   liked ? (
-                    <p>You like this game</p>
+                    <p onClick={handleDislike}>You like this game</p>
                   ) : (
                     <img
                       style={{ width: "3.5%" }}
