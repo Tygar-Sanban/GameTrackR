@@ -365,7 +365,7 @@ function GameDetails(props) {
   return (
     <>
       <RealNavBar user={props.user} />
-      <div className="gameBackground">
+      <div className="gameBackground" style={{ marginTop: "9rem" }}>
         <div
           className="game-details-background"
           style={{ backgroundImage: `url(${game.background_image})` }}

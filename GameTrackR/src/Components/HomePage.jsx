@@ -5,7 +5,7 @@ import RealNavBar from "./RealNavBar";
 
 function HomePage(props) {
   return (
-    <>
+    <div style={{ marginTop: "9rem" }}>
       <RealNavBar user={props.user} />
       <NavBar user={props.user?.userName} />
       <div className="HomePage-container">
@@ -24,7 +24,7 @@ function HomePage(props) {
           </Link>{" "}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
