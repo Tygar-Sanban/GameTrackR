@@ -26,6 +26,7 @@ library.add(faGamepad);
 library.add(faPaperPlane);
 
 import axios from "axios";
+import RealNavBar from "./RealNavBar.jsx";
 
 function GameDetails(props) {
   const [game, setGame] = useState(null);
@@ -363,6 +364,7 @@ function GameDetails(props) {
 
   return (
     <>
+      <RealNavBar user={props.user} />
       <div className="gameBackground">
         <div
           className="game-details-background"

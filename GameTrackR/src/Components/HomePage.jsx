@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import NavBar from "./NavBar";
+import RealNavBar from "./RealNavBar";
 
 function HomePage(props) {
   return (
     <>
+      <RealNavBar user={props.user} />
       <NavBar user={props.user?.userName} />
       <div className="HomePage-container">
         <div className="signin">

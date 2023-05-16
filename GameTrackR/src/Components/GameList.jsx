@@ -7,6 +7,7 @@ import DropdownStores from "./Dropdowns/DropdownStores";
 import DropdownGenres from "./Dropdowns/DropdownGenres";
 import DropdownTags from "./Dropdowns/DropdownTags";
 import DropdownRatings from "./Dropdowns/DropdownRatings";
+import RealNavBar from "./RealNavBar";
 
 function GameList(props) {
   // Let's display the games and handle what happens when we reach the bottom of the page :
@@ -288,6 +289,7 @@ function GameList(props) {
 
   return (
     <div>
+      <RealNavBar user={props.user} />
       {!allGames ? (
         <div>Loading...</div>
       ) : (
