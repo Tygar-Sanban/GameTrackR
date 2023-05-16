@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import SignIn from "./Components/SignIn";
 import LogIn from "./Components/LogIn";
 import axios, { all } from "axios";
+import LikedGamesList from "./Components/LikedGamesList";
 
 function App() {
   const location = useLocation();
@@ -177,6 +178,48 @@ function App() {
         />
         <Route
           path="/stats"
+          element={
+            <Stats
+              user={user}
+              setUser={setUser}
+              likedGames={likedGames}
+              allProfiles={allProfiles}
+              setAllProfiles={setAllProfiles}
+              playedGames={playedGames}
+              wishedGames={wishedGames}
+            />
+          }
+        />
+        <Route
+          path="/liked-games-list"
+          element={
+            <LikedGamesList
+              user={user}
+              setUser={setUser}
+              likedGames={likedGames}
+              allProfiles={allProfiles}
+              setAllProfiles={setAllProfiles}
+              playedGames={playedGames}
+              wishedGames={wishedGames}
+            />
+          }
+        />
+        <Route
+          path="/"
+          element={
+            <Stats
+              user={user}
+              setUser={setUser}
+              likedGames={likedGames}
+              allProfiles={allProfiles}
+              setAllProfiles={setAllProfiles}
+              playedGames={playedGames}
+              wishedGames={wishedGames}
+            />
+          }
+        />
+        <Route
+          path="/"
           element={
             <Stats
               user={user}

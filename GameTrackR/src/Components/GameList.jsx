@@ -288,21 +288,13 @@ function GameList(props) {
   //Now that it's done, let's display the page !
 
   return (
-    <div>
+    <div style={{ marginTop: "9rem" }}>
       <RealNavBar user={props.user} />
       {!allGames ? (
         <div>Loading...</div>
       ) : (
         <div className="GameList-video-game-page">
           <nav className="header-game-list">
-            <Link to="/">
-              <div className="logo">
-                <img
-                  src="/assets/Images/gameTrackR_v2 (1).png"
-                  alt="logo.png"
-                />
-              </div>
-            </Link>
             <div className="dropdowns">
               <DropdownPlatforms
                 platformsState={platformsState}
@@ -332,16 +324,6 @@ function GameList(props) {
                 handleSubmit={handleSubmit}
               />
             </ul>
-            {props.user && (
-              <div className="user">
-                <img
-                  className="user-icon"
-                  src="../../public/assets/Images/user.png"
-                  alt=""
-                />
-                <h3 className="displaying-user-name">{props.user.userName}</h3>
-              </div>
-            )}
           </nav>
           {allGames.map((elem) => {
             const url = `/game-list/${elem.id}`;

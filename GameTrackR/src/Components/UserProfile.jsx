@@ -7,7 +7,6 @@ import RealNavBar from "./RealNavBar";
 
 import Carousel, { CarouselItem } from "./Carousel.jsx";
 
-
 function UserProfile(props) {
   const navigate = useNavigate();
 
@@ -27,9 +26,8 @@ function UserProfile(props) {
   }
 
   return (
-    <div style={{ backgroundColor: "black" }}>
+    <div style={{ backgroundColor: "black", marginTop: "9rem" }}>
       <RealNavBar user={props.user} />
-      <button onClick={handleDisconnect}>Disconnect</button>
       <NavBar user={props.user?.userName} />
       {(props.user && props.likedGames) ||
       (props.user && props.playedGames) ||
@@ -196,6 +194,13 @@ function UserProfile(props) {
       ) : (
         <></>
       )}
+      <div className="disconnect-button-container">
+        {props.user && (
+          <button className="disconnect-button" onClick={handleDisconnect}>
+            Disconnect
+          </button>
+        )}
+      </div>
     </div>
   );
 }
