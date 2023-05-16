@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import NavBar from "./NavBar";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+
+import RealNavBar from "./RealNavBar";
+
 import Carousel, { CarouselItem } from "./Carousel.jsx";
+
 
 function UserProfile(props) {
   const navigate = useNavigate();
@@ -24,6 +28,7 @@ function UserProfile(props) {
 
   return (
     <div style={{ backgroundColor: "black" }}>
+      <RealNavBar user={props.user} />
       <button onClick={handleDisconnect}>Disconnect</button>
       <NavBar user={props.user?.userName} />
       {(props.user && props.likedGames) ||

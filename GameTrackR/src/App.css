@@ -10,6 +10,27 @@
   text-decoration: none;
 }
 
+/* Styling the real navbar */
+
+.real-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Game";
+  background-color: black;
+  color: white;
+  padding: 2rem;
+}
+
+.real-nav-bar a {
+  text-decoration: none;
+  color: white;
+}
+
+.real-navbar-logo {
+  width: 6%;
+}
+
 /* Styling the navbar */
 
 .logo {
@@ -55,7 +76,7 @@
 
 .header {
   width: 100%;
-  height: 70vh;
+  height: 57vh;
   background-color: black;
   color: white;
   padding: 2rem;
