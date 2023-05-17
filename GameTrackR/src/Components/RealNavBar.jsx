@@ -8,7 +8,7 @@ function RealNavBar(props) {
         <Link to="/">
           <div className="logo">
             <img
-              src="../../public/assets/Images/gameTrackR_v2 (1).png"
+              src="/public/assets/Images/gameTrackR_v2 (1).png"
               alt="logo.png"
             />
           </div>
@@ -28,7 +28,8 @@ function RealNavBar(props) {
               >
                 <img
                   className="user-icon"
-                  src="../../public/assets/Images/user.png"
+                  src="
+                  /public/assets/Images/user.png"
                   alt=""
                 />
                 <h3 className="displaying-user-name">{props.user.userName}</h3>
