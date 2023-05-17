@@ -528,6 +528,11 @@ function GameDetails(props) {
             </tr>
             <div className="divider"></div>
             <tr>
+              <td className="title">Average play time</td>
+              <td className="genres">{game.playtime} H</td>
+            </tr>
+            <div className="divider"></div>
+            <tr>
               <td className="title">Genres</td>
               <td className="genres">
                 {game.genres.map((elem) => {
@@ -571,7 +576,7 @@ function GameDetails(props) {
             </tr>
             {stores && (
               <tr>
-                <td className="title">Buy the game</td>
+                <td className="title">Links to the stores</td>
                 <td className="buy">
                   {stores.map((store) => {
                     return (
@@ -595,6 +600,7 @@ function GameDetails(props) {
             )}
 
             <div className="divider"></div>
+
             <tr>
               <td className="title">You may also like</td>
             </tr>
