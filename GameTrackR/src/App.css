@@ -284,7 +284,7 @@ select:hover {
 
 .HomePage-GameList-button:hover {
   filter: brightness(1);
-  scale: 1.12;
+  scale: 1.8;
 }
 
 .HomePage-UserProfile-button {
@@ -303,7 +303,7 @@ select:hover {
 
 .HomePage-UserProfile-button:hover {
   filter: brightness(1);
-  scale: 1.12;
+  scale: 1.8;
 }
 
 .HomePage-UserProfile-button h1 {
