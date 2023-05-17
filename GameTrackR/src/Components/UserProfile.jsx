@@ -5,9 +5,7 @@ import axios from "axios";
 
 import RealNavBar from "./RealNavBar";
 
-
 import CarouselUser, { CarouselItemUser } from "./CarouselUser.jsx";
-
 
 function UserProfile(props) {
   const navigate = useNavigate();
@@ -35,8 +33,11 @@ function UserProfile(props) {
       (props.user && props.playedGames) ||
       (props.user && props.likedGames) ? (
         props.likedGames.length === 0 ? (
-          <div className="empty-user-profile">
-            <h1>
+          <div
+            className="empty-user-profile"
+            style={{ backgroundColor: "black" }}
+          >
+            <h1 style={{ backgroundColor: "black" }}>
               You don't like any game yet. Check out our{" "}
               <Link to="/game-list">
                 <span className="link-to-gamelist">Game List</span>
@@ -49,12 +50,15 @@ function UserProfile(props) {
             {" "}
             <h1
               style={{
-                backgroundColor: "rgb(48, 48, 48)",
                 color: "white",
                 textAlign: "center",
+                fontFamily: "Game",
               }}
             >
-              You've liked {props.likedGames.length} games !
+              You've liked {props.likedGames.length} games ! See them all{" "}
+              <span>
+                <Link to="/liked-games-list">right here !</Link>
+              </span>
             </h1>
             <CarouselUser>
               {props.likedGames.map((likedGame) => {
@@ -76,7 +80,9 @@ function UserProfile(props) {
                           backgroundImage: `url(${likedGame.background_image})`,
                         }}
                       >
-                        <p>{likedGame.name}</p>
+                        <p className="carousel-image-user-p">
+                          {likedGame.name}
+                        </p>
                       </div>
                     </Link>
                   </CarouselItemUser>
@@ -118,44 +124,52 @@ function UserProfile(props) {
             </h1>
           </div>
         ) : (
-          <div>
-            <h1
-              style={{
-                backgroundColor: "rgb(48, 48, 48)",
-                color: "white",
-                textAlign: "center",
-              }}
-            >
-              You've played {props.playedGames.length} games !
-            </h1>
-            <CarouselUser>
-              {props.playedGames.map((playedGame) => {
-                const url = `/game-list/${playedGame.id}`;
-                return (
-                  <CarouselItemUser
-                    key={playedGame.id}
-                    className="carousel-item-user"
-                  >
-                    <Link
-                      key={playedGame.slug}
-                      to={url}
-                      target="_blank"
-                      className="carousel-image"
+          <>
+            <div className="divider-user"></div>
+            <div style={{ margin: "3rem" }}>
+              <h1
+                style={{
+                  color: "white",
+                  textAlign: "center",
+                  fontFamily: "Game",
+                }}
+              >
+                You've played {props.playedGames.length} games ! See them all{" "}
+                <span>
+                  <Link to="/played-games-list">right here !</Link>
+                </span>
+              </h1>
+              <CarouselUser>
+                {props.playedGames.map((playedGame) => {
+                  const url = `/game-list/${playedGame.id}`;
+                  return (
+                    <CarouselItemUser
+                      key={playedGame.id}
+                      className="carousel-item-user"
                     >
-                      <div
+                      <Link
+                        key={playedGame.slug}
+                        to={url}
+                        target="_blank"
                         className="carousel-image"
-                        style={{
-                          backgroundImage: `url(${playedGame.background_image})`,
-                        }}
                       >
-                        <p>{playedGame.name}</p>
-                      </div>
-                    </Link>
-                  </CarouselItemUser>
-                );
-              })}
-            </CarouselUser>
-          </div>
+                        <div
+                          className="carousel-image"
+                          style={{
+                            backgroundImage: `url(${playedGame.background_image})`,
+                          }}
+                        >
+                          <p className="carousel-image-user-p">
+                            {playedGame.name}
+                          </p>
+                        </div>
+                      </Link>
+                    </CarouselItemUser>
+                  );
+                })}
+              </CarouselUser>
+            </div>
+          </>
         )
       ) : (
         <></>
@@ -172,32 +186,52 @@ function UserProfile(props) {
             </h1>
           </div>
         ) : (
-          <CarouselUser>
-            <h1>You wish for {props.wishedGames.length} games !</h1>
-
-            {props.wishedGames.map((wishedGame) => {
-              const url = `/game-list/${wishedGame.id}`;
-              return (
-                <CarouselItemUser key={wishedGame.id} className="carousel-item">
-                  <Link
-                    key={wishedGame.slug}
-                    to={url}
-                    target="_blank"
-                    className="carousel-image"
-                  >
-                    <div
-                      className="carousel-image"
-                      style={{
-                        backgroundImage: `url(${wishedGame.background_image})`,
-                      }}
+          <>
+            <div className="divider-user"></div>
+            <div style={{ margin: "3rem" }}>
+              <h1
+                style={{
+                  color: "white",
+                  textAlign: "center",
+                  fontFamily: "Game",
+                }}
+              >
+                You wish for {props.wishedGames.length} games ! See them all{" "}
+                <span>
+                  <Link to="/wish-list">right here !</Link>
+                </span>
+              </h1>
+              <CarouselUser>
+                {props.wishedGames.map((wishedGame) => {
+                  const url = `/game-list/${wishedGame.id}`;
+                  return (
+                    <CarouselItemUser
+                      key={wishedGame.id}
+                      className="carousel-item"
                     >
-                      <p>{wishedGame.name}</p>
-                    </div>
-                  </Link>
-                </CarouselItemUser>
-              );
-            })}
-          </CarouselUser>
+                      <Link
+                        key={wishedGame.slug}
+                        to={url}
+                        target="_blank"
+                        className="carousel-image"
+                      >
+                        <div
+                          className="carousel-image"
+                          style={{
+                            backgroundImage: `url(${wishedGame.background_image})`,
+                          }}
+                        >
+                          <p className="carousel-image-user-p">
+                            {wishedGame.name}
+                          </p>
+                        </div>
+                      </Link>
+                    </CarouselItemUser>
+                  );
+                })}
+              </CarouselUser>
+            </div>
+          </>
         )
       ) : (
         <></>

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Search from "./Search";
 import RealNavBar from "./RealNavBar";
 
-function LikedGamesList(props) {
+function WishList(props) {
   // Let's display the games and handle what happens when we reach the bottom of the page :
 
   const [allGames, setAllGames] = useState([]);
@@ -13,10 +13,10 @@ function LikedGamesList(props) {
   //Now, let's implement a search bar
 
   useEffect(() => {
-    if (props.likedGames) {
-      setAllGames(props.likedGames);
+    if (props.wishedGames) {
+      setAllGames(props.wishedGames);
     }
-  }, [props.likedGames]);
+  }, [props.wishedGames]);
 
   function handleChange(event) {
     setSearchString(event.target.value);
@@ -29,11 +29,12 @@ function LikedGamesList(props) {
 
   function getSearchedGame() {
     setAllGames(
-      props.likedGames.filter((elem) => {
+      props.wishedGames.filter((elem) => {
         return elem.name.toLowerCase().includes(searchString.toLowerCase());
       })
     );
   }
+
   //Now that it's done, let's display the page !
 
   return (
@@ -77,4 +78,4 @@ function LikedGamesList(props) {
   );
 }
 
-export default LikedGamesList;
+export default WishList;

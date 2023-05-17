@@ -23,7 +23,7 @@ const CarouselUser = ({ children }) => {
   };
 
   return (
-    <div className="carousel">
+    <div className="carousel" style={{ backgroundColor: "rgb(0, 0, 0" }}>
       <div
         className="inner"
         style={{ transform: `translateX(-${activeIndex * 100}%)` }}
