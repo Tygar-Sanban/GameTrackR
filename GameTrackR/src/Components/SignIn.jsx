@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import NavBar from "./NavBar";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import Footer from "./Footer";
 
 function SignIn(props) {
   const [email, setEmail] = useState("");
@@ -112,6 +113,7 @@ function SignIn(props) {
           <button>Create your account !</button>
         </form>
       </div>
+      <Footer />
     </div>
   );
 }

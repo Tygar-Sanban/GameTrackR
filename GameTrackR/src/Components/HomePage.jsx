@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import NavBar from "./NavBar";
 import RealNavBar from "./RealNavBar";
+import Footer from "./Footer";
 
 function HomePage(props) {
   return (
@@ -27,6 +28,7 @@ function HomePage(props) {
           </Link>{" "}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

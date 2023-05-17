@@ -9,6 +9,7 @@ import DropdownTags from "./Dropdowns/DropdownTags";
 import DropdownRatings from "./Dropdowns/DropdownRatings";
 import RealNavBar from "./RealNavBar";
 import NavBar from "./NavBar";
+import Footer from "./Footer";
 
 function GameList(props) {
   // Let's display the games and handle what happens when we reach the bottom of the page :
@@ -354,6 +355,7 @@ function GameList(props) {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 }

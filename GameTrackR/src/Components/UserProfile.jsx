@@ -6,6 +6,7 @@ import axios from "axios";
 import RealNavBar from "./RealNavBar";
 
 import CarouselUser, { CarouselItemUser } from "./CarouselUser.jsx";
+import Footer from "./Footer";
 
 function UserProfile(props) {
   const navigate = useNavigate();
@@ -244,6 +245,7 @@ function UserProfile(props) {
           </button>
         )}
       </div>
+      <Footer />
     </div>
   );
 }
