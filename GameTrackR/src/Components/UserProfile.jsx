@@ -26,9 +26,9 @@ function UserProfile(props) {
   }
 
   return (
-    <div style={{ backgroundColor: "black", marginTop: "9rem" }}>
+    <div style={{ backgroundColor: "black", marginTop: "5rem" }}>
       <RealNavBar user={props.user} />
-      <NavBar user={props.user?.userName} />
+      <NavBar user={props.user?.userName} line="Your very own space" />
       {(props.user && props.likedGames) ||
       (props.user && props.playedGames) ||
       (props.user && props.likedGames) ? (

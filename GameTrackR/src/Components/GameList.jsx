@@ -8,6 +8,7 @@ import DropdownGenres from "./Dropdowns/DropdownGenres";
 import DropdownTags from "./Dropdowns/DropdownTags";
 import DropdownRatings from "./Dropdowns/DropdownRatings";
 import RealNavBar from "./RealNavBar";
+import NavBar from "./NavBar";
 
 function GameList(props) {
   // Let's display the games and handle what happens when we reach the bottom of the page :
@@ -273,6 +274,10 @@ function GameList(props) {
     }
   }
 
+  function handleReset() {
+    window.location.reload();
+  }
+
   useEffect(() => {
     if (
       platformsState ||
@@ -288,13 +293,14 @@ function GameList(props) {
   //Now that it's done, let's display the page !
 
   return (
-    <div style={{ marginTop: "9rem" }}>
+    <div style={{ marginTop: "5rem" }}>
       <RealNavBar user={props.user} />
       {!allGames ? (
         <div>Loading...</div>
       ) : (
         <div className="GameList-video-game-page">
-          <nav className="header-game-list">
+          <NavBar line="All the games... Ever..." />
+          <div className="navigation">
             <div className="dropdowns">
               <DropdownPlatforms
                 platformsState={platformsState}
@@ -322,27 +328,30 @@ function GameList(props) {
                 allGames={allGames}
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}
+                handleReset={handleReset}
               />
             </ul>
-          </nav>
-          {allGames.map((elem) => {
-            const url = `/game-list/${elem.id}`;
-            return (
-              <Link
-                key={elem.slug}
-                to={url}
-                target="_blank"
-                className="GameList-video-game"
-                style={{ backgroundImage: `url(${elem.background_image})` }}
-              >
-                <div>
-                  <div className="GameList-video-game-name">{elem.name}</div>
-                </div>
-              </Link>
-            );
-          })}
-          {isFetching && <div>Loading...</div>}
-          <div ref={sentinelRef}></div>
+          </div>
+          <div className="GameList-video-game-page">
+            {allGames.map((elem) => {
+              const url = `/game-list/${elem.id}`;
+              return (
+                <Link
+                  key={elem.slug}
+                  to={url}
+                  target="_blank"
+                  className="GameList-video-game"
+                  style={{ backgroundImage: `url(${elem.background_image})` }}
+                >
+                  <div>
+                    <div className="GameList-video-game-name">{elem.name}</div>
+                  </div>
+                </Link>
+              );
+            })}
+            {isFetching && <div>Loading...</div>}
+            <div ref={sentinelRef}></div>
+          </div>
         </div>
       )}
     </div>

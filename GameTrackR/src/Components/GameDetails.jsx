@@ -335,6 +335,17 @@ function GameDetails(props) {
     }
   }
 
+  async function handleDelete(commentary) {
+    const foundCommentary = props.commentaryDisplay.find((elem) => {
+      return elem.commentary === commentary;
+    });
+
+    const response = await axios.delete(
+      `https://ironrest.fly.dev/api/GameTrackR_Commentaries/${foundCommentary._id}`
+    );
+    props.fetchComments();
+  }
+
   //
 
   if (!game) {
@@ -344,7 +355,7 @@ function GameDetails(props) {
   return (
     <>
       <RealNavBar user={props.user} />
-      <div className="gameBackground" style={{ marginTop: "9rem" }}>
+      <div className="gameBackground" style={{ marginTop: "5rem" }}>
         <div
           className="game-details-background"
           style={{ backgroundImage: `url(${game.background_image})` }}
@@ -688,7 +699,20 @@ function GameDetails(props) {
                       <div key={elem._id}>
                         <p className="pseudonyme">{elem.pseudonyme}</p>
 
-                        <p className="commentary">{elem.commentary}</p>
+                        <div className="commentary-container">
+                          <p className="commentary">{elem.commentary}</p>
+                          {props.user &&
+                            props.user.userName &&
+                            elem.pseudonyme === props.user.userName && (
+                              <div className="delete-com">
+                                <img
+                                  onClick={() => handleDelete(elem.commentary)}
+                                  src="../../public/assets/Images/bin.png"
+                                  alt="delete"
+                                />
+                              </div>
+                            )}
+                        </div>
                       </div>
                     )
                   );
