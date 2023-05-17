@@ -5,7 +5,7 @@ import RealNavBar from "./RealNavBar";
 
 function HomePage(props) {
   return (
-    <div style={{ marginTop: "5rem", height: "100vh" }}>
+    <div style={{ paddingTop: "5rem", height: "100vh" }}>
       <RealNavBar user={props.user} />
       <NavBar
         user={props.user?.userName}
