@@ -165,6 +165,37 @@ function GameDetails(props) {
   const filteredRelatedGames = relatedGenre.filter(
     (relatedGame) => relatedGame.id !== game.id
   );
+  let allLikedIds;
+  if (props.likedGames) {
+    allLikedIds = props.likedGames.map((elem) => {
+      console.log(elem.id);
+      return elem.id;
+    });
+  }
+
+  let allPlayedIds;
+  if (props.playedGames) {
+    allPlayedIds = props.playedGames.map((elem) => {
+      console.log(elem.id);
+      return elem.id;
+    });
+  }
+
+  let allWisheddIds;
+  if (props.wishedGames) {
+    allWisheddIds = props.wishedGames.map((elem) => {
+      console.log(elem.id);
+      return elem.id;
+    });
+  }
+
+  const filteredRelatedGamesTrue = filteredRelatedGames.filter((elem) => {
+    return (
+      !allLikedIds.includes(elem.id) &&
+      !allPlayedIds.includes(elem.id) &&
+      !allWisheddIds.includes(elem.id)
+    );
+  });
 
   async function handleLikeClick() {
     setLiked(true);
@@ -635,7 +666,7 @@ function GameDetails(props) {
       </div>
       <Carousel>
         {relatedGenre &&
-          filteredRelatedGames.map((elem) => {
+          filteredRelatedGamesTrue.map((elem) => {
             const url = `/game-list/${elem.id}`;
             return (
               <CarouselItem key={elem.slug} className="carousel-item">
