@@ -28,6 +28,7 @@ library.add(faPaperPlane);
 
 import axios from "axios";
 import RealNavBar from "./RealNavBar.jsx";
+import Footer from "./Footer.jsx";
 
 function GameDetails(props) {
   const [game, setGame] = useState(null);
@@ -771,6 +772,7 @@ function GameDetails(props) {
               </div>
             </div>
           </div>
+          <Footer />
         </>
       )}
     </>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import NavBar from "./NavBar";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import Footer from "./Footer";
 
 function LogIn(props) {
   const [userName, setUserName] = useState("");
@@ -96,6 +97,7 @@ function LogIn(props) {
           <button>Log in !</button>
         </form>
       </div>
+      <Footer />
     </div>
   );
 }

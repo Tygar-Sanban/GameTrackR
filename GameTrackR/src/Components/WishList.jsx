@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Search from "./Search";
 import RealNavBar from "./RealNavBar";
 import NavBar from "./NavBar";
+import Footer from "./Footer";
 
 function WishList(props) {
   // Let's display the games and handle what happens when we reach the bottom of the page :
@@ -79,6 +80,7 @@ function WishList(props) {
           })}
         </div>
       )}
+      <Footer />
     </div>
   );
 }
