@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "./NavBar";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function SignIn(props) {
   const [email, setEmail] = useState("");
@@ -69,6 +69,10 @@ function SignIn(props) {
       <NavBar user={props.user?.userName} />
       <div className="form-container">
         <form onSubmit={handleSubmit} className="form">
+          <button>
+            <Link to="/log-in">Already have an account ? Log in !</Link>
+          </button>
+
           <label htmlFor="mailAdress">Mail Adress :</label>
           <input
             type="email"
@@ -105,9 +109,7 @@ function SignIn(props) {
             type="password"
             onChange={(event) => setConfirmedPassword(event.target.value)}
           />
-          <button>
-            <h1>Create your account !</h1>
-          </button>
+          <button>Create your account !</button>
         </form>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Carousel, { CarouselItem } from "./Carousel.jsx";
 import { Link } from "react-router-dom";
@@ -32,45 +32,13 @@ function GameDetails(props) {
   const [game, setGame] = useState(null);
   const [relatedGenre, setRelatedGenre] = useState(null);
   const param = useParams();
+  const navigate = useNavigate();
   const [screenshots, setScreenshots] = useState(null);
   const [liked, setLiked] = useState(false);
   const [wished, setWished] = useState(false);
   const [played, setPlayed] = useState(false);
 
   const [canUse, setCanUse] = useState(false);
-
-  // if (props.user.likedGames.includes(param.gameId)) {
-  //   setLiked(true);
-  // }
-
-  const [gamepadColor, setGamepadColor] = useState("#8bc6ef");
-  const [heartColor, setHeartColor] = useState("#8bc6ef");
-  const [listCheckColor, setListCheckColor] = useState("#8bc6ef");
-  const [paperPlaneColor, setPaperPlaneColor] = useState("#8bc6ef");
-  const [gamepadCheckVisible, setGamepadCheckVisible] = useState(false);
-  const [heartCheckVisible, setHeartCheckVisible] = useState(false);
-  const [listCheckVisible, setListCheckVisible] = useState(false);
-  const [sendCheckVisible, setSendCheckVisible] = useState(false);
-
-  const handleGamepadClick = () => {
-    setGamepadColor(gamepadColor === "#8bc6ef" ? "#0B7A75" : "#8bc6ef");
-    setGamepadCheckVisible(!gamepadCheckVisible);
-  };
-
-  const handleHeartClick = () => {
-    setHeartColor(heartColor === "#8bc6ef" ? "#f44336" : "#8bc6ef");
-    setHeartCheckVisible(!heartCheckVisible);
-  };
-
-  const handleListCheckClick = () => {
-    setListCheckColor(listCheckColor === "#8bc6ef" ? "#D7C9AA" : "#8bc6ef");
-    setListCheckVisible(!listCheckVisible);
-  };
-
-  const handlePaperPlaneClick = () => {
-    setPaperPlaneColor(paperPlaneColor === "#8bc6ef" ? "#BB7E8C" : "#8bc6ef");
-    setSendCheckVisible(!sendCheckVisible);
-  };
 
   useEffect(() => {
     if (props.user && props.user.likedGames) {
@@ -337,22 +305,33 @@ function GameDetails(props) {
   const [pseudonyme, setPseudonyme] = useState("");
   const [commentary, setCommentary] = useState("");
 
-  async function handleSubmitComment(event) {
-    event.preventDefault();
-    const objectToPost = {
-      gameId: game.id,
-      pseudonyme,
-      commentary,
-    };
+  useEffect(() => {
+    if (props.user) {
+      setPseudonyme(props.user.userName);
+    }
+  }, [props.user]);
 
-    try {
-      const response = await axios.post(
-        "https://ironrest.fly.dev/api/GameTrackR_Commentaries",
-        objectToPost
-      );
-      props.fetchComments();
-    } catch (error) {
-      console.log(error);
+  async function handleSubmitComment(event) {
+    if (props.user) {
+      event.preventDefault();
+      const objectToPost = {
+        gameId: game.id,
+        pseudonyme,
+        commentary,
+      };
+      setCommentary("");
+
+      try {
+        const response = await axios.post(
+          "https://ironrest.fly.dev/api/GameTrackR_Commentaries",
+          objectToPost
+        );
+        props.fetchComments();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      navigate("/sign-in");
     }
   }
 
@@ -616,31 +595,6 @@ function GameDetails(props) {
             )}
 
             <div className="divider"></div>
-
-            <tr>
-              <td className="title">Actions</td>
-              <td className="like">
-                {canUse ? (
-                  liked ? (
-                    <p onClick={handleDislike}>You like this game</p>
-                  ) : (
-                    <img
-                      style={{ width: "3.5%" }}
-                      src="../../public/assets/Images/heart.png"
-                      alt="like"
-                      onClick={handleLikeClick}
-                    />
-                  )
-                ) : (
-                  <div>
-                    You need to be logged to interract with the game.{" "}
-                    <Link to="/log-in">
-                      <h4>Log in ?</h4>
-                    </Link>{" "}
-                  </div>
-                )}
-              </td>
-            </tr>
             <tr>
               <td className="title">You may also like</td>
             </tr>
@@ -707,22 +661,14 @@ function GameDetails(props) {
 
             <div className="comment-section">
               <form onSubmit={handleSubmitComment}>
-                <label htmlFor="comment">Comment :</label>
+                <label htmlFor="comment">Your comment here :</label>
                 <textarea
+                  className="textarea"
                   type="text"
                   value={commentary}
                   onChange={(event) => {
                     event.preventDefault();
                     setCommentary(event.target.value);
-                  }}
-                />
-                <label htmlFor="pseudo">Enter your pseudonyme :</label>
-                <textarea
-                  type="text"
-                  value={pseudonyme}
-                  onChange={(event) => {
-                    event.preventDefault();
-                    setPseudonyme(event.target.value);
                   }}
                 />
                 <button className="btn-topdown">
@@ -734,9 +680,7 @@ function GameDetails(props) {
                   return (
                     elem.gameId === parseInt(param.gameId) && (
                       <div key={elem._id}>
-                        <p className="pseudonyme">
-                          Username: {elem.pseudonyme}
-                        </p>
+                        <p className="pseudonyme">{elem.pseudonyme}</p>
 
                         <p className="commentary">{elem.commentary}</p>
                       </div>

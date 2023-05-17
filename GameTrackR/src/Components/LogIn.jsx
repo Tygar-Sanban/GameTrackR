@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "./NavBar";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function LogIn(props) {
   const [userName, setUserName] = useState("");
@@ -50,6 +50,9 @@ function LogIn(props) {
       <NavBar user={props.user?.userName} />
       <div>
         <form onSubmit={handleSubmit} className="form">
+          <button>
+            <Link to="/sign-in">You don't have an account yet ? Sign in !</Link>
+          </button>
           <label htmlFor="userName">
             <p className="error-user-name-message">
               The username might be incorrect
@@ -68,9 +71,7 @@ function LogIn(props) {
             type="password"
             onChange={(event) => setPassword(event.target.value)}
           />
-          <button>
-            <h1>Log in !</h1>
-          </button>
+          <button>Log in !</button>
         </form>
       </div>
     </div>
@@ -79,6 +80,9 @@ function LogIn(props) {
       <NavBar user={props.user?.userName} />
       <div>
         <form onSubmit={handleSubmit} className="form">
+          <button>
+            <Link to="/sign-in">You don't have an account yet ? Sign in !</Link>
+          </button>
           <label htmlFor="userName">Username :</label>
           <input
             type="text"
@@ -89,9 +93,7 @@ function LogIn(props) {
             type="password"
             onChange={(event) => setPassword(event.target.value)}
           />
-          <button>
-            <h1>Log in !</h1>
-          </button>
+          <button>Log in !</button>
         </form>
       </div>
     </div>

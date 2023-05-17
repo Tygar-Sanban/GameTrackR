@@ -11,6 +11,8 @@ import SignIn from "./Components/SignIn";
 import LogIn from "./Components/LogIn";
 import axios, { all } from "axios";
 import LikedGamesList from "./Components/LikedGamesList";
+import PlayedGamesList from "./Components/PlayedGamesList";
+import WishList from "./Components/WishList";
 
 function App() {
   const location = useLocation();
@@ -205,9 +207,9 @@ function App() {
           }
         />
         <Route
-          path="/"
+          path="/played-games-list"
           element={
-            <Stats
+            <PlayedGamesList
               user={user}
               setUser={setUser}
               likedGames={likedGames}
@@ -219,9 +221,9 @@ function App() {
           }
         />
         <Route
-          path="/"
+          path="/wish-list"
           element={
-            <Stats
+            <WishList
               user={user}
               setUser={setUser}
               likedGames={likedGames}
