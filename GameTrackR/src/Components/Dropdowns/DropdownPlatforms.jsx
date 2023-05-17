@@ -5,7 +5,6 @@ import React, { useState } from "react";
 function DropdownPlatforms(props) {
   function handleOptionChange(event) {
     props.setPlatformsState(event.target.value);
-    props.dropdownPlatformSearch();
   }
   return (
     <select value={props.platformsState} onChange={handleOptionChange}>
