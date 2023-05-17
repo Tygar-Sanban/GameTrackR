@@ -23,8 +23,8 @@
   position: fixed;
   z-index: 100;
   top: 0;
-  height: 9rem;
-  padding: 5rem;
+  max-height: 2rem;
+  padding: 3rem;
 }
 
 .real-nav-bar a {
@@ -33,7 +33,7 @@
 }
 
 .real-navbar-logo {
-  width: 6%;
+  width: 4.5%;
 }
 
 .nav-content {
@@ -85,6 +85,13 @@
   align-items: flex-end;
 }
 
+.navigation {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
 .header {
   width: 100%;
   height: 57vh;
@@ -97,7 +104,10 @@
   background-blend-mode: lighten;
   box-shadow: 0rem 1rem 2rem black;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
+  font-family: "Game";
+  font-size: 3.7rem;
 }
 
 .user {
@@ -169,11 +179,19 @@
   scale: 1.3;
 }
 
+.all-search-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .dropdowns {
   margin: 10% 0 0 0;
   width: 15%;
   display: flex;
   flex-direction: column;
+  transform: translateY(-40%);
 }
 
 select {
@@ -821,4 +839,25 @@ form textarea {
 
 .textarea {
   height: 10rem;
+}
+
+.delete-com {
+  width: 5%;
+}
+
+.delete-com img {
+  width: 100%;
+  margin: 0 0 0 75%;
+  filter: hue-rotate(180);
+}
+
+.commentary-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.commentary {
+  width: 95%;
 }

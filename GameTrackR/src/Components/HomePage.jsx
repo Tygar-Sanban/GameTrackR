@@ -5,9 +5,12 @@ import RealNavBar from "./RealNavBar";
 
 function HomePage(props) {
   return (
-    <div style={{ marginTop: "9rem" }}>
+    <div style={{ marginTop: "5rem", height: "100vh" }}>
       <RealNavBar user={props.user} />
-      <NavBar user={props.user?.userName} />
+      <NavBar
+        user={props.user?.userName}
+        line="Your personal gaming sanctuary"
+      />
       <div className="HomePage-container">
         <div className="signin">
           <Link to="/game-list" className="HomePage-GameList-button">
