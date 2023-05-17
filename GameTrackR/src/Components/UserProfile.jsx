@@ -135,7 +135,7 @@ function UserProfile(props) {
                 }}
               >
                 You've played {props.playedGames.length} games ! See them all{" "}
-                <span>
+                <span style={{ color: "#8bc6ef" }}>
                   <Link to="/played-games-list">right here !</Link>
                 </span>
               </h1>
@@ -174,9 +174,10 @@ function UserProfile(props) {
       ) : (
         <></>
       )}
+      <div className="divider-user"></div>
       {props.user && props.wishedGames ? (
         props.wishedGames.length === 0 ? (
-          <div className="empty-user-profile">
+          <div className="empty-user-profile" style={{ margin: "2rem" }}>
             <h1>
               You don't wish for any game? Then, you have to check out our{" "}
               <Link to="/game-list">

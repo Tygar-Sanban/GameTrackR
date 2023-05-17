@@ -9,6 +9,7 @@ import xboxLogo from "../../public/assets/Images/xboxLogo.png";
 import laptopLogo from "../../public/assets/Images/laptopLogo.png";
 import switchLogo from "../../public/assets/Images/switchLogo.png";
 import linuxLogo from "../../public/assets/Images/linuxLogo.png";
+import appleLogo from "../../public/assets/Images/apple-logo.png";
 import gogLogo from "../../public/assets/Images/gogLogo.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -30,7 +31,7 @@ import RealNavBar from "./RealNavBar.jsx";
 
 function GameDetails(props) {
   const [game, setGame] = useState(null);
-  const [relatedGenre, setRelatedGenre] = useState(null);
+  const [relatedGenre, setRelatedGenre] = useState([]);
   const param = useParams();
   const navigate = useNavigate();
   const [screenshots, setScreenshots] = useState(null);
@@ -161,6 +162,10 @@ function GameDetails(props) {
     }
   }, [game]);
 
+  const filteredRelatedGames = relatedGenre.filter(
+    (relatedGame) => relatedGame.id !== game.id
+  );
+
   async function handleLikeClick() {
     setLiked(true);
     const objectToPatch = {
@@ -287,6 +292,7 @@ function GameDetails(props) {
     Nintendo: switchLogo,
     PC: laptopLogo,
     Linux: linuxLogo,
+    "Apple Macintosh": appleLogo,
   };
 
   const storeLogos = {
@@ -402,6 +408,7 @@ function GameDetails(props) {
                           </div>
                         )}
                       </i>
+                      <h4 className="infoIcon">Played it ? Click it !</h4>
                     </div>
                     <div style={{ textAlign: "center" }}>
                       <i>
@@ -437,6 +444,7 @@ function GameDetails(props) {
                           <></>
                         )}
                       </i>
+                      <h4 className="infoIcon">Liked it ? Click it !</h4>
                     </div>
                     <div style={{ textAlign: "center" }}>
                       <i>
@@ -472,6 +480,7 @@ function GameDetails(props) {
                           <></>
                         )}
                       </i>
+                      <h4 className="infoIcon">Wish it ? Click it !</h4>
                     </div>
                   </div>
                 </div>
@@ -542,11 +551,17 @@ function GameDetails(props) {
             </tr>
 
             <tr>
-              <td className="title">Tags :</td>
-              <td className="content" key={game.tags.id}>
-                {game.tags.map((tag) => {
-                  return `${tag.slug} / `;
-                })}
+              <td className="title">Top Tags :</td>
+              <td className="genres" key={game.tags.id}>
+                {game.tags
+                  .map((tag) => {
+                    return { name: tag.slug, count: tag.games_count };
+                  })
+                  .sort((a, b) => b.count - a.count)
+                  .slice(0, 4)
+                  .map((tagg) => {
+                    return `${tagg.name} / `;
+                  })}
               </td>
             </tr>
             <div className="divider"></div>
@@ -609,7 +624,7 @@ function GameDetails(props) {
       </div>
       <Carousel>
         {relatedGenre &&
-          relatedGenre.map((elem) => {
+          filteredRelatedGames.map((elem) => {
             const url = `/game-list/${elem.id}`;
             return (
               <CarouselItem key={elem.slug} className="carousel-item">
@@ -639,6 +654,11 @@ function GameDetails(props) {
                   return (
                     <>
                       <div className="redditPost">
+                        <img
+                          src="../../public/assets/Images/redditLogo.png"
+                          alt="redditLogo"
+                          className="redditLogo"
+                        />
                         <p className="redditUsername">
                           Username {post.username}
                         </p>
