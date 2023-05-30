@@ -7,10 +7,7 @@ function RealNavBar(props) {
       <div className="real-navbar-logo">
         <Link to="/">
           <div className="logo">
-            <img
-              src="/public/assets/Images/gameTrackR_v2 (1).png"
-              alt="logo.png"
-            />
+            <img src="/assets/Images/gameTrackR_v2 (1).png" alt="logo.png" />
           </div>
         </Link>
       </div>{" "}
@@ -29,7 +26,7 @@ function RealNavBar(props) {
                 <img
                   className="user-icon"
                   src="
-                  /public/assets/Images/user.png"
+                  /assets/Images/user.png"
                   alt=""
                 />
                 <h3 className="displaying-user-name">{props.user.userName}</h3>
@@ -44,7 +41,7 @@ function RealNavBar(props) {
               >
                 <img
                   className="user-icon"
-                  src="../../public/assets/Images/user.png"
+                  src="/assets/Images/user.png"
                   alt=""
                 />
               </Link>
